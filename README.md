@@ -26,8 +26,9 @@ subl
 ### Misc Apps
 
 ```
-sudo apt-get cmus
-sudo apt-get screenfetch
+sudo apt-get install cmus
+sudo apt-get install screenfetch
+sudo apt-get install mc
 ```
 
 ### Standard Linter
