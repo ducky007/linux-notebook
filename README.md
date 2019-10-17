@@ -41,6 +41,8 @@ sudo npm install standard --global
 ```
 sudo apt-get install dconf-tools
 dconf-editor
+sudo add-apt-repository ppa:philip.scott/elementary-tweaks
+sudo apt install elementary-tweaks
 ```
 
 ## Theme
