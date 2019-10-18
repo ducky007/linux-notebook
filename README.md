@@ -52,6 +52,14 @@ sudo add-apt-repository ppa:philip.scott/elementary-tweaks
 sudo apt install elementary-tweaks
 ```
 
+### Flat Remix
+
+```
+sudo add-apt-repository ppa:daniruiz/flat-remix
+sudo apt-get update
+sudo apt-get install flat-remix-gnome
+```
+
 ## Theme
 
 ```
