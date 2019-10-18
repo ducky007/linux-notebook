@@ -23,6 +23,12 @@ sudo apt-get install sublime-text-installer
 subl
 ```
 
+### Steam
+
+ ```
+ sudo apt-get update && sudo apt-get install steam
+ ```
+
 ### Misc Apps
 
 ```
