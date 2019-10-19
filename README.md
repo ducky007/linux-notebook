@@ -6,6 +6,8 @@ A couple of notes on getting the system setup like I wanted.
 
 ### Olive
 
+See [Flatpack](https://flathub.org/apps/details/org.olivevideoeditor.Olive)
+
 ```
 sudo apt-get install software-properties-common
 sudo apt-get update
