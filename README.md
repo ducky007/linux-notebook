@@ -69,5 +69,9 @@ sudo powertop --auto-tune
 ## Node
 
 ```
-npm install npm@latest -g
+sudo npm install npm@latest -g
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+
 ```
