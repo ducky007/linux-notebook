@@ -84,3 +84,11 @@ sudo chmod a+rx /usr/local/bin/youtube-dl
 
 youtube-dl -x --audio-format mp3 https://www.youtube.com/watch?v=sfIls6LMAGE
 ```
+
+## EyeD3
+
+```
+pip install eyeD3
+eyeD3 -a "Artist" -A "Album" -t "Track Title" song.mp3
+eyeD3 song.mp3
+```
