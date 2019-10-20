@@ -4,18 +4,6 @@ A couple of notes on getting the system setup like I wanted.
 
 ## Essentials
 
-### Olive
-
-See [Flatpack](https://flathub.org/apps/details/org.olivevideoeditor.Olive)
-
-```
-sudo apt-get install software-properties-common
-sudo apt-get update
-sudo add-apt-repository ppa:olive-editor/olive-editor
-sudo apt-get update
-sudo apt-get install olive-editor
-```
-
 ### Sublime
 
 ```
@@ -37,6 +25,7 @@ subl
 sudo apt-get install cmus
 sudo apt-get install screenfetch
 sudo apt-get install mc
+sudo apt-get install kdenlive
 ```
 
 ### Standard Linter
