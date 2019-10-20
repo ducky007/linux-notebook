@@ -65,3 +65,9 @@ sudo apt install elementary-tweaks
 ```
 sudo powertop --auto-tune
 ```
+
+## Node
+
+```
+npm install npm@latest -g
+```
