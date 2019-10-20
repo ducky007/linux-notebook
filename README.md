@@ -72,6 +72,6 @@ sudo powertop --auto-tune
 sudo npm install npm@latest -g
 sudo npm cache clean -f
 sudo npm install -g n
+sudo npm i -g npm
 sudo n stable
-
 ```
