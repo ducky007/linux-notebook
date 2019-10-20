@@ -75,3 +75,12 @@ sudo npm install -g n
 sudo npm i -g npm
 sudo n stable
 ```
+
+## Youtube-dl
+
+```
+sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+sudo chmod a+rx /usr/local/bin/youtube-dl
+
+youtube-dl -x --audio-format mp3 https://www.youtube.com/watch?v=sfIls6LMAGE
+```
