@@ -13,6 +13,13 @@ sudo apt-get install sublime-text-installer
 subl
 ```
 
+### Micro
+
+```
+sudo apt-get install xclip
+snap install micro --classic
+```
+
 ### Steam
 
  ```
