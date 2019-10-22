@@ -4,15 +4,6 @@ A couple of notes on getting the system setup like I wanted.
 
 ## Essentials
 
-### Sublime
-
-```
-sudo add-apt-repository ppa:webupd8team/sublime-text-3
-sudo apt-get update
-sudo apt-get install sublime-text-installer
-subl
-```
-
 ### Micro
 
 ```
