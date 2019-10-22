@@ -16,8 +16,8 @@ subl
 ### Micro
 
 ```
-sudo apt-get install xclip
 snap install micro --classic
+sudo apt-get install xclip
 ```
 
 ### Steam
