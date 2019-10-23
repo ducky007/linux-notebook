@@ -79,3 +79,9 @@ pip install eyeD3
 eyeD3 -a "Artist" -A "Album" -t "Track Title" song.mp3
 eyeD3 song.mp3
 ```
+
+## Copy image to clipboard
+
+```
+xclip -selection clipboard -t image/png -i example.png
+```
