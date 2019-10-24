@@ -11,6 +11,12 @@ snap install micro --classic
 sudo apt-get install xclip
 ```
 
+#### Config Micro
+
+```
+micro ~/.config/micro/settings.json
+```
+
 ### Steam
 
  ```
