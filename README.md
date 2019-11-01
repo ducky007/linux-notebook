@@ -91,3 +91,8 @@ eyeD3 song.mp3
 ```
 xclip -selection clipboard -t image/png -i example.png
 ```
+
+## Development
+
+- [Getting Started](https://elementary.io/docs/code/getting-started#gtk-application)
+- [Vala Tutorial](https://wiki.gnome.org/Projects/Vala/Tutorial)
