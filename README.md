@@ -69,6 +69,12 @@ sudo npm i -g npm
 sudo n stable
 ```
 
+## Wine
+
+```
+sudo apt install wine-stable
+```
+
 ## Youtube-dl
 
 ```
