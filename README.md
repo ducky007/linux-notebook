@@ -98,6 +98,12 @@ eyeD3 song.mp3
 xclip -selection clipboard -t image/png -i example.png
 ```
 
+## Use a .deb File
+
+```
+sudo dpkg -i filename.deb
+```
+
 ## Development
 
 - [Getting Started](https://elementary.io/docs/code/getting-started#gtk-application)
