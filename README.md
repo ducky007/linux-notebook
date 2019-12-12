@@ -23,6 +23,17 @@ sudo apt-get install sublime-text-installer
 subl
 ```
 
+```
+{
+  "color_scheme": "Packages/Theme/Tech49.tmTheme",
+  "font_size": 9,
+  "margin": 2,
+  "tab_size": 2,
+  "theme": "Adaptive.sublime-theme",
+  "translate_tabs_to_spaces": true
+}
+```
+
 ### Misc Apps
 
 ```
@@ -46,7 +57,7 @@ dconf-editor
 ## Theme
 
 ```
-#000000:#86dbc3:#945950:#ff0000:#666666:#9fcfba:#57c89d:#89E0B9:#777777:#91bda1:#945950:#789689:#a84c47:#e6d3b2:#a4dbcc:#ffffff
+#444444:#72dec2:#ffffff:#FF5950:#333333:#b5b5b5:#FF5950:#222222:#ff7777:#ffbda1:#ffbda1:#ffbda1:#ffbda1:#FF5950:#72dec2:#ffffff
 ```
 
 ## Battery management
