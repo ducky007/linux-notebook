@@ -1,4 +1,4 @@
-# ElementaryOS Notes
+# Linux Notes
 
 A couple of notes on getting the system setup like I wanted.
 
