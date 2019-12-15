@@ -115,6 +115,14 @@ xclip -selection clipboard -t image/png -i example.png
 sudo dpkg -i filename.deb
 ```
 
+## unix
+
+### Get cmus currently playing
+
+```
+cmus-remote -Q | grep tag | head -n 3 | cut -d ' ' -f 3- 
+```
+
 ## Development
 
 - [Getting Started](https://elementary.io/docs/code/getting-started#gtk-application)
