@@ -28,6 +28,14 @@ micro ~/.config/micro/settings.json
 }
 ```
 
+
+### Fish
+
+```
+sudo apt-get install fish
+chsh -s /usr/bin/fish
+```
+
 ### Steam
 
 ```
