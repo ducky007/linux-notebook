@@ -131,6 +131,11 @@ sudo dpkg -i filename.deb
 cmus-remote -Q | grep tag | head -n 3 | cut -d ' ' -f 3- 
 ```
 
+## c
+
+- [clang docs](https://clang.llvm.org/docs/ClangFormat.html)
+- [clang-format template](https://github.com/torvalds/linux/blob/master/.clang-format)
+
 ## Development
 
 - [Getting Started](https://elementary.io/docs/code/getting-started#gtk-application)
