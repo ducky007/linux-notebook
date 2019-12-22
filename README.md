@@ -48,6 +48,7 @@ sudo apt-get update && sudo apt-get install steam
 sudo apt-get install cmus
 sudo apt-get install screenfetch
 sudo apt-get install mc
+sudo apt-get install htop
 sudo apt-get install kdenlive
 ```
 
