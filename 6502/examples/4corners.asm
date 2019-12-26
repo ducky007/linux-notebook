@@ -11,9 +11,9 @@ STA $040f ; middle right
 LDA #$01
 STA $041f ; middle right
 LDA #$01
-STA $05ff ; middle left
+STA $05ff ; bottom left
 LDA #$01
-STA $05ef ; middle right
+STA $05ef ; bottom right
 LDA #$01
-STA $05e0 ; middle right
+STA $05e0 ; bottom right
 
