@@ -69,7 +69,8 @@ sudo apt install elementary-tweaks
 ## Theme
 
 ```
-#444444:#72dec2:#ffffff:#FF5950:#333333:#b5b5b5:#FF5950:#222222:#ff7777:#ffbda1:#ffbda1:#ffbda1:#ffbda1:#FF5950:#72dec2:#ffffff
+| bg   | fg1   | fg2           | bglab |                
+#000000:#51a196:#72dec2:#ffffff:#333333:#cccccc:#FF5950:#aaaaaa:#ff7777:#ffbda1:#ffbda1:#ffbda1:#ffbda1:#FF5950:#72dec2:#ffffff
 ```
 
 ## Battery management
