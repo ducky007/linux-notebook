@@ -28,12 +28,12 @@ BRK       ;Break - we're done
 ## Decrement
 
 ```
-  LDX #$08
+  LDX #$08       ;Load index with memory
 decrement:
-  DEX
-  STX $0200
-  CPX #$03
-  BNE decrement
-  STX $0201
-  BRK
+  DEX            ;Decrement X
+  STX $0200      ;Store X
+  CPX #$03       ;Compare Memory and Index X
+  BNE decrement  ;branch on not equal (zero clear)
+  STX $0201      ;Store X
+  BRK            ;Break
 ```
