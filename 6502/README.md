@@ -10,6 +10,7 @@ P                -  Processor status.  Holds the result of tests and flags.
 - LDA #$01 loads the hex value $01 into register A
 - STA $0200 stores the value of the A register to memory location $0200
 - CPX compares the value in the X register with another value. If the two values are equal, the Z flag is set to 1, otherwise it is set to 0.
+- This simulator uses the memory locations $0200 to $05ff to draw pixels on its display. 
 
 - SP is the stack pointer. This register is decremented every time a byte is pushed onto the stack, and incremented when a byte is popped off the stack.
 - PC is the program counter - it’s how the processor knows at what point in the program it currently is. It’s like the current line number of an executing script. In the JavaScript simulator the code is assembled starting at memory location $0600, so PC always starts there.

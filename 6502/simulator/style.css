@@ -1,6 +1,8 @@
+body { padding:0px; margin:0px; }
+
 .widget {
   width: 600px;
-  margin: 30px auto;
+  margin: 15px auto;
   font-size: 12px;
   line-height: 1.5;
 }
@@ -78,13 +80,12 @@
 
 .messages {
   margin: 0;
-  padding: 6px;
-  border: 1px solid #999;
-  background-color: #eee;
+  padding: 0;
+  background-color: #fff;
   overflow: auto;
   width: 587px;
   height: 100px;
   text-align: left;
-  font-size: 12px;
+  font-size: 11px;
   color: #444;
 }

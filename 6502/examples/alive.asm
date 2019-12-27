@@ -1,49 +1,50 @@
-; I'm alive
-; by PJP
-
 start:
- lda #15
- sta $0 ;xpos
- sta $1 ;ypos
+  lda #15
+  sta $0 ;xpos
+  sta $1 ;ypos
 
 loop:
- lda $fe
- and #3
- cmp #0
- beq go_left
- cmp #1
- beq go_right
- cmp #2
- beq go_down
- dec $1
+  lda $fe
+  and #3
+  cmp #0
+  beq go_left
+  cmp #1
+  beq go_right
+  cmp #2
+  beq go_down
+  dec $1
+
 draw:
- lda $1
- and #$1f
- asl
- tax
- lda ypos,x
- sta $2
- inx
- lda ypos,x
- sta $3
- lda $0
- and #$1f
- tay
- lda ($2),y
- tax
- inx
- txa
- sta ($2),y
- jmp loop
+  lda $1
+  and #$1f
+  asl
+  tax
+  lda ypos,x
+  sta $2
+  inx
+  lda ypos,x
+  sta $3
+  lda $0
+  and #$1f
+  tay
+  lda ($2),y
+  tax
+  inx
+  txa
+  sta ($2),y
+  jmp loop
+
 go_down:
- inc $1
- jmp draw
+  inc $1
+  jmp draw
+
 go_left:
- dec $0
- jmp draw
+  dec $0
+  jmp draw
+ 
 go_right:
- inc $0
- jmp draw
+  inc $0
+  jmp draw
 
 ypos:
  dcb $00,$02,$20,$02,$40,$02,$60,$02
