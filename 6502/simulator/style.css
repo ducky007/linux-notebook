@@ -68,14 +68,9 @@ body { padding:0px; margin:0px; }
 }
 
 .monitor {
-  margin: 10px 0;
-  padding: 6px;
-  border: 1px solid #999;
-  background-color: #ddd;
   width: 587px;
-  height: 100px;
   overflow: auto;
-  display: none;
+  margin-bottom: 15px;
 }
 
 .messages {
