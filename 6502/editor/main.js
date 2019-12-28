@@ -79,9 +79,8 @@ function toggleGrid (evt) {
 
 var downloadNes = document.getElementById('nes')
 downloadNes.addEventListener('click', function () {
-  var name = document.getElementById('nesfilename').value
   spriteRomData = canvasToNES(imageData)
-  download(name || 'sprite.chr', spriteRomData, 'octect/stream')
+  download('sprite.chr', spriteRomData, 'octect/stream')
 })
 
 var uploadNes = document.getElementById('nesfile')
