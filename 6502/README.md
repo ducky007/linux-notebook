@@ -40,3 +40,12 @@ decrement:
   STX $0201      ;Store X
   BRK            ;Break
 ```
+
+## NES
+
+- `256x240`
+
+## Links
+
+- [Prog guide](http://wiki.nesdev.com/w/index.php/Programming_guide)
+- [NES ASM](https://patater.com/gbaguy/nesasm.htm)
