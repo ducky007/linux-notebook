@@ -19,6 +19,7 @@ This project was originally distributed at the NESDev forums:
 https://forums.nesdev.com/viewtopic.php?t=11151
 
 ## License
+
 This program and source code can be freely redistributed, modified or reused in any way.
 Credit is not required, but attribution is always appreciated.
 
