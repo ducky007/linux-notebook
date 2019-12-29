@@ -406,7 +406,7 @@ gamepad_poll:
 
 .segment "RODATA"
 example_palette:
-.byte $0F,$15,$26,$37 ; bg0 purple/pink
+.byte $0F,$30,$27,$18 ; bg0 purple/pink
 .byte $0F,$09,$19,$29 ; bg1 green
 .byte $0F,$01,$11,$21 ; bg2 blue
 .byte $0F,$00,$10,$30 ; bg3 greyscale
@@ -724,16 +724,17 @@ setup_background:
 		sta $2007
 		dex
 		bne :-
+
 	; fill in an area in the middle with 1/2 checkerboard
 	lda #1
-	ldy #8 ; start at row 8
+	ldy #8 ; start at row (12), was 8
 	:
 		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
 		ldx #8 ; start at column 8
 		jsr ppu_address_tile
 		pla ; recover A
 		; write a line of checkerboard
-		ldx #8
+		ldx #14 ; was 8
 		:
 			sta $2007
 			eor #$3
@@ -742,8 +743,120 @@ setup_background:
 			bcc :-
 		eor #$3
 		iny
-		cpy #(30-8)
+		cpy #(32-14)
 		bcc :--
+
+	; Extra things
+
+
+
+
+
+
+
+	; fill in an area in the middle with 1/2 checkerboard
+	lda #7
+	ldy #19 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #8 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+			; fill in an area in the middle with 1/2 checkerboard
+	lda #8
+	ldy #19 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #9 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+			; fill in an area in the middle with 1/2 checkerboard
+	lda #8
+	ldy #19 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #10 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+			; fill in an area in the middle with 1/2 checkerboard
+	lda #9
+	ldy #19 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #11 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	; second nametable, fill with simple pattern
 	lda #$24
 	sta $2006
