@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Cleaning.."
+rm example.nes
+rm example.nes.dgb
+
 ca65 example.s -g -o example.o
 echo "ca65: done"
 
