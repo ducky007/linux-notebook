@@ -73,9 +73,15 @@ function lint6502 (text) {
     return '; ' + line.replace(';', '').trim()
   }
 
+  function subRoutine (line){
+    if (line.trim().split(' ')[0].indexOf(':') < 0) { return line }
+    return '\n'+line
+  }
+
   for (const id in lines) {
     lines[id] = ucOpCodes(lines[id])
     lines[id] = catComment(lines[id], lines[id - 1])
+    lines[id] = subRoutine(lines[id], lines[id - 1])
   }
   return lines.join('\n')
 }
