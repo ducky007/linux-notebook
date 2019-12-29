@@ -45,13 +45,16 @@ function SimulatorWidget (node) {
       }
     })
     $node.find('.monitoring').change(function () {
-      ui.toggleMonitor()
-      simulator.toggleMonitor()
+      const state = document.getElementsByClassName('monitoring')[0].checked
+      ui.toggleMonitor(state)
+      simulator.toggleMonitor(state)
     })
     $node.find('.start, .length').blur(simulator.handleMonitorRangeChange)
     $node.find('.stepButton').click(simulator.debugExec)
     $node.find('.gotoButton').click(simulator.gotoAddr)
-    $node.find('.notesButton').click(ui.showNotes)
+    $node.find('.lintButton').click(() => {
+      document.getElementById('code').value = lint6502(document.getElementById('code').value)
+    })
 
     var editor = $node.find('.code')
 
@@ -153,12 +156,12 @@ function SimulatorWidget (node) {
       setState(assembled)
     }
 
-    function toggleMonitor () {
-      $node.find('.monitor').toggle()
+    function toggleMonitor (state) {
+      $node.find('.monitor').toggle(state)
     }
 
-    function showNotes () {
-      $node.find('.messages code').html($node.find('.notes').html())
+    function lintCode () {
+      console.log('!!')
     }
 
     function captureTabInEditor (e) {
@@ -187,7 +190,6 @@ function SimulatorWidget (node) {
       debugOn: debugOn,
       debugOff: debugOff,
       toggleMonitor: toggleMonitor,
-      showNotes: showNotes,
       captureTabInEditor: captureTabInEditor
     }
   }
@@ -1686,8 +1688,8 @@ function SimulatorWidget (node) {
       message('\nStopped\n')
     }
 
-    function toggleMonitor () {
-      monitoring = !monitoring
+    function toggleMonitor (state) {
+      monitoring = state
     }
 
     return {
