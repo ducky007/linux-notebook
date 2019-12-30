@@ -1,16 +1,16 @@
 'use strict'
 
-var canvas = document.getElementById('editor')
-var spriteRomData = null
+const canvas = document.getElementById('editor')
+let spriteRomData = null
 
-var scale = 6
-var width = 128
-var height = 256
+const scale = 6
+const width = 128
+const height = 256
 
 canvas.width = width * scale
 canvas.height = height * scale
 
-var ctx = canvas.getContext('2d')
+const ctx = canvas.getContext('2d')
 ctx.imageSmoothingEnabled = false
 
 document.body.appendChild(canvas)
@@ -18,31 +18,31 @@ document.body.appendChild(canvas)
 ctx.fillStyle = 'gray'
 ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-var spriteCanvas = document.createElement('canvas')
+const spriteCanvas = document.createElement('canvas')
 spriteCanvas.width = width
 spriteCanvas.height = height
-var spriteCtx = spriteCanvas.getContext('2d')
+const spriteCtx = spriteCanvas.getContext('2d')
 spriteCtx.imageSmoothingEnabled = false
 
-var imageData = ctx.getImageData(0, 0, spriteCanvas.width, spriteCanvas.height)// ctx.getImageData(0, 0, canvas.width, canvas.height);
-var data = imageData.data
+const imageData = ctx.getImageData(0, 0, spriteCanvas.width, spriteCanvas.height)// ctx.getImageData(0, 0, canvas.width, canvas.height);
+const data = imageData.data
 
 // Editor data
 
-var mapping = ['background', 'color1', 'color2', 'color3']
+const mapping = ['background', 'color1', 'color2', 'color3']
 
-var pallete = {
+const pallete = {
   background: { r: 0, g: 0, b: 0, nes: '0x0F' },
   color1: { r: 248, g: 56, b: 0, nes: '0x16' }, // rgb(248,56,0)
   color2: { r: 252, g: 160, b: 68, nes: '0x27' }, // rgb(252,160,68)
   color3: { r: 172, g: 124, b: 0, nes: '0x18' } // rgb(172,124,0)
 }
 
-var selectedPallete = 'background'
-var selectedColor = null
-var selectedNes = null
-var showGridLines = true
-var elements = document.getElementsByClassName('selectable')
+let selectedPallete = 'background'
+let selectedColor = null
+let selectedNes = null
+let showGridLines = true
+const elements = document.getElementsByClassName('selectable')
 
 document.getElementById('grid').addEventListener('change', toggleGrid)
 
@@ -51,33 +51,33 @@ function toggleGrid (evt) {
   paintCanvas()
 }
 
-var downloadNes = document.getElementById('nes')
+const downloadNes = document.getElementById('nes')
 downloadNes.addEventListener('click', function () {
   spriteRomData = canvasToNES(imageData)
   download('sprite.chr', spriteRomData, 'octect/stream')
 })
 
-var uploadNes = document.getElementById('nesfile')
+const uploadNes = document.getElementById('nesfile')
 uploadNes.addEventListener('change', function () {
   readBlob()
 }, false)
 
-var newSheet = document.getElementById('new')
+const newSheet = document.getElementById('new')
 newSheet.addEventListener('click', function () {
   spriteRomData = new Uint8Array(512 * 16)
   NEStoCanvas(spriteRomData)
 })
 
-var savePng = document.getElementById('image')
+const savePng = document.getElementById('image')
 savePng.addEventListener('click', function () {
-  var image = canvas.toDataURL('image/png')
+  const image = canvas.toDataURL('image/png')
   download(name || 'sprite.png', image, 'image/png')
 })
 
-var grid = document.getElementById('grid')
+const grid = document.getElementById('grid')
 grid.addEventListener('change', toggleGrid)
 
-for (var el of elements) {
+for (const el of elements) {
   el.addEventListener('mouseup', handlePalleteChange)
 }
 
@@ -95,7 +95,7 @@ function handlePalleteChange (evt) {
     // save the current state of teh rom before switching palletes
     spriteRomData = canvasToNES(imageData)
 
-    var color = selectedColor.match(/(\d{1,3})\,\s*(\d{1,3})\,\s*(\d{1,3})/)
+    const color = selectedColor.match(/(\d{1,3})\,\s*(\d{1,3})\,\s*(\d{1,3})/)
     pallete[selectedPallete].r = color[1]
     pallete[selectedPallete].g = color[2]
     pallete[selectedPallete].b = color[3]
@@ -112,21 +112,10 @@ function handlePalleteChange (evt) {
 
 // Handle hotkeys
 window.addEventListener('keydown', function (evt) {
-  if (evt.keyCode == 49) {
-    selectedPallete = 'background'
-  }
-
-  if (evt.keyCode == 50) {
-    selectedPallete = 'color1'
-  }
-
-  if (evt.keyCode == 51) {
-    selectedPallete = 'color2'
-  }
-
-  if (evt.keyCode == 52) {
-    selectedPallete = 'color3'
-  }
+  if (evt.keyCode === 49) { selectedPallete = 'background' }
+  if (evt.keyCode === 50) { selectedPallete = 'color1' }
+  if (evt.keyCode === 51) { selectedPallete = 'color2' }
+  if (evt.keyCode === 52) { selectedPallete = 'color3' }
   updatePallet()
 })
 
@@ -143,10 +132,10 @@ function getWhiteOrBlack (color) {
 }
 
 function updatePallet () {
-  var bgColor = pallete.background
-  var c1 = pallete.color1
-  var c2 = pallete.color2
-  var c3 = pallete.color3
+  const bgColor = pallete.background
+  const c1 = pallete.color1
+  const c2 = pallete.color2
+  const c3 = pallete.color3
 
   setElementColor('brush', pallete[selectedPallete].r, pallete[selectedPallete].g, pallete[selectedPallete].b)
   setElementColor('background', bgColor.r, bgColor.g, bgColor.b)
@@ -166,9 +155,9 @@ updatePallet()
 
 function getXY (evt) {
   // ref: https://stackoverflow.com/questions/28633221/document-body-scrolltop-firefox-returns-0-only-js
-  var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-  var x = Math.floor((evt.x - evt.target.offsetLeft) / scale)
-  var y = Math.floor((evt.y - evt.target.offsetTop + scrollTop) / scale)
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+  const x = Math.floor((evt.x - evt.target.offsetLeft) / scale)
+  const y = Math.floor((evt.y - evt.target.offsetTop + scrollTop) / scale)
   return {
     x: x,
     y: y
@@ -176,11 +165,11 @@ function getXY (evt) {
 }
 
 document.getElementById('editor').addEventListener('mousemove', function (evt) {
-  var coords = getXY(evt)
+  const coords = getXY(evt)
   document.getElementById('coord').innerText = 'Pixel (' + coords.x + ', ' + coords.y + ')'
 
-  var ycoord = Math.floor((coords.y / 8)) * 16
-  var tile = Math.floor((coords.x) / 8 + ycoord).toString(16).toUpperCase()
+  const ycoord = Math.floor((coords.y / 8)) * 16
+  let tile = Math.floor((coords.x) / 8 + ycoord).toString(16).toUpperCase()
   if (tile.length < 2) {
     tile = '0' + tile
   }
@@ -194,7 +183,7 @@ document.getElementById('editor').addEventListener('mousemove', function (evt) {
 })
 document.getElementById('editor').addEventListener('mousedown', down)
 document.getElementById('editor').addEventListener('mouseup', up)
-var _isMouseDown = false
+let _isMouseDown = false
 function down (evt) {
   _isMouseDown = true
   handleDrawTool(evt)
@@ -204,7 +193,7 @@ function up (evt) {
 }
 
 function handleDrawTool (evt) {
-  var coords = getXY(evt)
+  const coords = getXY(evt)
   putPixel(coords.x, coords.y, pallete, selectedPallete, imageData)
   paintCanvas()
 }
@@ -212,16 +201,16 @@ function handleDrawTool (evt) {
 /// Drawing utilities
 
 function putPixel (x, y, pallete, palleteColor, imageData) {
-  var canvasImageOffset = (x + imageData.width * y) * 4
-  var color = pallete[palleteColor]
+  const canvasImageOffset = (x + imageData.width * y) * 4
+  const color = pallete[palleteColor]
   imageData.data[canvasImageOffset + 0] = color.r
   imageData.data[canvasImageOffset + 1] = color.g
   imageData.data[canvasImageOffset + 2] = color.b
 }
 
 function getPixel (x, y, imageData) {
-  var canvasImageOffset = (x + imageData.width * y) * 4
-  var color = {
+  const canvasImageOffset = (x + imageData.width * y) * 4
+  const color = {
     r: imageData.data[canvasImageOffset + 0],
     g: imageData.data[canvasImageOffset + 1],
     b: imageData.data[canvasImageOffset + 2]
@@ -235,40 +224,33 @@ function getPixel (x, y, imageData) {
 }
 
 function drawSpriteBorderGridLines () {
-  var sWidth = canvas.width / 16
-  var sHeight = canvas.height / 32
+  const sWidth = canvas.width / 16
+  const sHeight = canvas.height / 32
 
-  // ctx.save();
-  ctx.fillStyle = 'white'
   ctx.strokeStyle = 'white'
-  ctx.lineWidth = 2
-  ctx.setLineDash([4, 4])
-  ctx.lineDashOffset = 2
-  for (var x = 0; x < 15; x++) {
+  ctx.lineWidth = 0.5
+  for (let x = 0; x < 15; x++) {
+    ctx.strokeStyle = (x+1) % 4 === 0 ? '#fff' : '#666'
     ctx.beginPath()
     ctx.moveTo(x * sWidth + sWidth, 0)
     ctx.lineTo(x * sWidth + sWidth, canvas.height)
     ctx.stroke()
   }
-  for (var y = 0; y < 31; y++) {
+  for (let y = 0; y < 31; y++) {
+    ctx.strokeStyle = (y+1) % 4 === 0 ? '#fff' : '#666'
     ctx.beginPath()
     ctx.moveTo(0, y * sHeight + sHeight)
     ctx.lineTo(canvas.width, y * sHeight + sHeight)
     ctx.stroke()
   }
-
-  // ctx.restore();
 }
 
 function drawCurrentPixelSelected (x, y) {
-  var pWidth = canvas.width / 128
-  var pHeight = canvas.height / 256
+  const pWidth = canvas.width / 128
+  const pHeight = canvas.height / 256
 
   ctx.fillStyle = 'white'
   ctx.strokeStyle = 'white'
-  ctx.lineWidth = 2
-  ctx.setLineDash([4, 4])
-  ctx.lineDashOffset = 2
   ctx.beginPath()
   ctx.strokeRect(x * scale, y * scale, pWidth, pHeight)
   ctx.stroke()
@@ -289,13 +271,13 @@ function rgbColorToPalleteTuple (color, pallete) {
   function colorKey (color) {
     return color.r + '+' + color.g + '+' + color.b
   }
-  var palleteHash = {}
+  const palleteHash = {}
   palleteHash[colorKey(pallete.background)] = [0x0, 0x0]
   palleteHash[colorKey(pallete.color1)] = [0x1, 0x0]
   palleteHash[colorKey(pallete.color2)] = [0x0, 0x1]
   palleteHash[colorKey(pallete.color3)] = [0x1, 0x1]
 
-  var result = palleteHash[colorKey(color)]
+  const result = palleteHash[colorKey(color)]
 
   return result
 }
@@ -303,8 +285,8 @@ function rgbColorToPalleteTuple (color, pallete) {
 /// Translate raw NES binary to a canvas
 
 function NEStoCanvas (byteArray) {
-  var xpos = 0
-  var ypos = 0
+  let xpos = 0
+  let ypos = 0
   // every sprite is 16 bytes
   // 1 byte is 8 pixels
   // byte n and byte n+8 control the color of that pixel
@@ -312,19 +294,15 @@ function NEStoCanvas (byteArray) {
   //  (1,0) color 1
   //  (0,1) color 2
   //  (1,1) color 3
-  for (var b = 0; b < byteArray.length; b += 16) {
+  for (let b = 0; b < byteArray.length; b += 16) {
     ypos = Math.floor(b / height) * 8
     // draw sprite
-    for (var i = 0; i < 8; i++) {
-      for (var j = 7; j >= 0; j--) {
-        var mask = 0x1
-
-        var channel1 = byteArray[b + i]
-
-        var channel2 = byteArray[b + i + 8]
-
-        var color = ((channel1 >>> j) & mask) + (((channel2 >>> j) & mask) << 1)
-
+    for (let i = 0; i < 8; i++) {
+      for (let j = 7; j >= 0; j--) {
+        const mask = 0x1
+        const channel1 = byteArray[b + i]
+        const channel2 = byteArray[b + i + 8]
+        const color = ((channel1 >>> j) & mask) + (((channel2 >>> j) & mask) << 1)
         putPixel(xpos + (7 - j), ypos + i, pallete, mapping[color], imageData)
       }
     }
@@ -338,18 +316,18 @@ function NEStoCanvas (byteArray) {
 
 function canvasToNES (imageData) {
   // move 16 byte sprite and 512 sprites
-  var byteArray = new Uint8Array(512 * 16)
+  const byteArray = new Uint8Array(512 * 16)
 
   // tuple buffer
-  var tupleBuffer = new Array(imageData.width * imageData.height)
+  const tupleBuffer = new Array(imageData.width * imageData.height)
 
-  for (var y = 0; y < imageData.height; y++) {
-    for (var x = 0; x < imageData.width; x++) {
+  for (let y = 0; y < imageData.height; y++) {
+    for (let x = 0; x < imageData.width; x++) {
       // extract which color it is from imageData
-      var color = getPixel(x, y, imageData)
+      const color = getPixel(x, y, imageData)
 
       // find the pallet color
-      var palletTuple = rgbColorToPalleteTuple(color, pallete)
+      const palletTuple = rgbColorToPalleteTuple(color, pallete)
 
       // write it to the tupleBuffer
       tupleBuffer[x + imageData.width * y] = palletTuple
@@ -357,19 +335,19 @@ function canvasToNES (imageData) {
   }
 
   // tuple buffer has imageData.width * imageData.heigh pixels, so divide that by 16 for sprites
-  var xtotal = 0
-  var ytotal = 0
-  for (var i = 0; i < byteArray.length; i += 8) {
+  let xtotal = 0
+  let ytotal = 0
+  for (let i = 0; i < byteArray.length; i += 8) {
     ytotal = Math.floor(i / height) * 8
 
-    for (var y = ytotal; y < (ytotal + 8); y++) {
+    for (let y = ytotal; y < (ytotal + 8); y++) {
       // do each row channel
-      var byteChannel1 = 0x00
-      var byteChannel2 = 0x00
+      let byteChannel1 = 0x00
+      let byteChannel2 = 0x00
 
       // complete row calculation
-      for (var x = xtotal; x < (xtotal + 8); x++) {
-        var tup = tupleBuffer[x + y * imageData.width]
+      for (let x = xtotal; x < (xtotal + 8); x++) {
+        const tup = tupleBuffer[x + y * imageData.width]
         byteChannel1 = (byteChannel1 << 1 | tup[0])
         byteChannel2 = (byteChannel2 << 1 | tup[1])
       }
@@ -389,19 +367,15 @@ function canvasToNES (imageData) {
 
 function download (filename, byteArray, type) {
   // convert to a blob
-  var blob = new Blob([byteArray], { type: type })
-  if (type == 'octect/stream') {
-    var url = window.URL.createObjectURL(blob)
-  } else {
-    var url = byteArray
-  }
+  const blob = new Blob([byteArray], { type: type })
+  const url = type === 'octect/stream' ? window.URL.createObjectURL(blob) : byteArray
+  const pom = document.createElement('a')
 
-  var pom = document.createElement('a')
   pom.setAttribute('href', url)
   pom.setAttribute('download', filename)
 
   if (document.createEvent) {
-    var event = document.createEvent('MouseEvents')
+    const event = document.createEvent('MouseEvents')
     event.initEvent('click', true, true)
     pom.dispatchEvent(event)
   } else {
@@ -412,33 +386,33 @@ function download (filename, byteArray, type) {
 /// Upload utilities
 
 function readBlob () {
-  var files = document.getElementById('nesfile').files
+  const files = document.getElementById('nesfile').files
   if (!files.length) {
     alert('Please select a file!')
     return
   }
 
-  var file = files[0]
-  var start = 0
-  var stop = file.size - 1
+  const file = files[0]
+  const start = 0
+  const stop = file.size - 1
 
-  var reader = new FileReader()
+  const reader = new FileReader()
 
   // If we use onloadend, we need to check the readyState.
   reader.onloadend = function (evt) {
-    if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+    if (evt.target.readyState === FileReader.DONE) { // DONE == 2
       spriteRomData = new Uint8Array(evt.target.result)
       NEStoCanvas(spriteRomData)
     }
   }
 
-  var blob = file.slice(start, stop + 1)
+  const blob = file.slice(start, stop + 1)
   reader.readAsArrayBuffer(blob)
 }
 
 /// Load up default sprite sheet
 
-var xhr = new XMLHttpRequest()
+const xhr = new XMLHttpRequest()
 xhr.open('GET', 'main.chr')
 xhr.responseType = 'arraybuffer'
 

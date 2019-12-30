@@ -73,9 +73,9 @@ function lint6502 (text) {
     return '; ' + line.replace(';', '').trim()
   }
 
-  function subRoutine (line){
+  function subRoutine (line) {
     if (line.trim().split(' ')[0].indexOf(':') < 0) { return line }
-    return '\n'+line
+    return '\n' + line
   }
 
   for (const id in lines) {

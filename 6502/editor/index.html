@@ -12,19 +12,19 @@
             <span id="coord"> (x, y) </span> <span id="tile"> tile </span>
             <div id="current">
             </div>
-            <input id="grid" type="checkbox" checked="checked">Show grid lines</input>
+            <input id="grid" type="checkbox" checked="checked" style="display: none"></input>
         </div>
         <div id="pallete">
-            <div id="brush" class="color">BRUSH</div>
+            <div id="brush" class="color"></div>
             <div id="pallete-current">
-                <div id="background" class="color selectable" data-pallete="background"> BKG </div>
-                <div id="color1" class="color selectable" data-pallete="color1"> CL1 
+                <div id="background" class="color selectable" data-pallete="background"></div>
+                <div id="color1" class="color selectable" data-pallete="color1"> 
                     <div></div>
                 </div>
-                <div id="color2" class="color selectable" data-pallete="color2"> CL2 
+                <div id="color2" class="color selectable" data-pallete="color2"> 
                     <div></div>
                 </div>
-                <div id="color3" class="color selectable" data-pallete="color3"> CL3 
+                <div id="color3" class="color selectable" data-pallete="color3">
                     <div></div>
                 </div>
             </div>
@@ -130,9 +130,9 @@
             </table>
         </div>
 
-        <button id="new">New</button><br /><br />
+        <button id="new">Clear</button>
         <input type="file" id="nesfile" name="nesfile" /><br /><br />
-        <button id="nes">.chr</button><br /><br />
+        <button id="nes">.chr</button>
         <button id="image">.png</button><br /><br />
     </div>
     <script src="main.js"></script>
