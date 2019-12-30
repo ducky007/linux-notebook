@@ -28,24 +28,45 @@ BRK       ;Break - we're done
 
 Screen pixels go from `$0200` to `$05e0`.
 
-## Decrement
-
-```
-  LDX #$08       ;Load index with memory
-decrement:
-  DEX            ;Decrement X
-  STX $0200      ;Store X
-  CPX #$03       ;Compare Memory and Index X
-  BNE decrement  ;branch on not equal (zero clear)
-  STX $0201      ;Store X
-  BRK            ;Break
-```
-
 ## NES
 
 - `256x240`
 
 ## Links
 
-- [Prog guide](http://wiki.nesdev.com/w/index.php/Programming_guide)
+
+## NES C Tutorials
+
+- [nesdev wiki](http://wiki.nesdev.com/w/index.php/Nesdev_Wiki)
+- [gregkrsak's first_nes](https://github.com/gregkrsak/first_nes)
+- [shiru](https://shiru.untergrund.net/articles/programming_nes_games_in_c.htm)
+- [fritzvd](http://blog.fritzvd.com/2016/06/13/Getting-started-with-NES-programming/)
+- [nesdoug](https://github.com/nesdoug/01_Hello)
+
+## ASM Tutorial
+
+- [6502JS](https://github.com/skilldrick/6502js)
 - [NES ASM](https://patater.com/gbaguy/nesasm.htm)
+- [Easy6502](http://skilldrick.github.io/easy6502/)
+- [6502](http://6502.org/tutorials/)
+
+## Tools
+
+- [8bitworkshop](https://8bitworkshop.com)
+- [neslib](https://github.com/clbr/neslib)
+- [cc65](https://cc65.github.io/)
+
+## cc65
+
+```
+git clone https://github.com/cc65/cc65.git
+cd cc65
+make
+make avail
+```
+
+## nestopia
+
+```
+sudo apt-get install nestopia
+```

@@ -102,7 +102,11 @@ sudo apt install wine-stable
 sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
 sudo chmod a+rx /usr/local/bin/youtube-dl
 
+// Single
 youtube-dl -x --audio-format mp3 https://www.youtube.com/watch?v=sfIls6LMAGE
+
+// Playlist
+youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" 'https://www.youtube.com/watch?v=5KpK7yhDRXE&list=PLfGibfZATlGq4e4UsUiPLs3asiOqysjei'
 ```
 
 ## EyeD3
