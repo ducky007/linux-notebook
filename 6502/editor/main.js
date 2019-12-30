@@ -1,5 +1,4 @@
-
-// Canvas bootstrapping
+'use strict'
 
 var canvas = document.getElementById('editor')
 var spriteRomData = null
@@ -33,41 +32,16 @@ var data = imageData.data
 var mapping = ['background', 'color1', 'color2', 'color3']
 
 var pallete = {
-  background: {
-    r: 0,
-    g: 0,
-    b: 0,
-    nes: '0x0F'
-  },
-  color1: { // rgb(248,56,0)
-    r: 248,
-    g: 56,
-    b: 0,
-    nes: '0x16'
-  },
-
-  color2: { // rgb(252,160,68)
-    r: 252,
-    g: 160,
-    b: 68,
-    nes: '0x27'
-
-  },
-
-  color3: { // rgb(172,124,0)
-    r: 172,
-    g: 124,
-    b: 0,
-    nes: '0x18'
-  }
+  background: { r: 0, g: 0, b: 0, nes: '0x0F' },
+  color1: { r: 248, g: 56, b: 0, nes: '0x16' }, // rgb(248,56,0)
+  color2: { r: 252, g: 160, b: 68, nes: '0x27' }, // rgb(252,160,68)
+  color3: { r: 172, g: 124, b: 0, nes: '0x18' } // rgb(172,124,0)
 }
 
 var selectedPallete = 'background'
 var selectedColor = null
 var selectedNes = null
-
 var showGridLines = true
-
 var elements = document.getElementsByClassName('selectable')
 
 document.getElementById('grid').addEventListener('change', toggleGrid)
