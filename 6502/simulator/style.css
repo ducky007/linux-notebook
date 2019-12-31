@@ -1,4 +1,4 @@
-body { padding:0px; margin:0px; font-family: mono }
+body { padding:30px; margin:0px; font-family: monospace }
 
 .widget {
   width: 600px;
@@ -24,29 +24,20 @@ body { padding:0px; margin:0px; font-family: mono }
 
 .code {
   margin: 0 0 6px 0;
-  padding: 6px;
-  border: 1px solid black;
+  padding: 10px;
+  border: 0px;
   width: 420px;
   height: 290px;
   font-family: monospace;
   overflow: auto;
   float: left;
+  background:#efefef;
+  resize:none;
 }
 
-.screen {
-  float: right;
-}
+.screen { float: right; }
 
-.debugger {
-  border: 1px black solid;
-  margin-top: 6px;
-  padding: 3px;
-  padding-top: 8px;
-  height: 125px;
-  width: 152px;
-  text-align: center;
-  float: right;
-}
+.debugger { padding-left: 10px;padding-top: 10px;height: 125px;width: 150px;float: right; }
 
 .minidebugger {
   margin: 0;

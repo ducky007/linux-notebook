@@ -1685,7 +1685,6 @@ function SimulatorWidget (node) {
     function stop () {
       codeRunning = false
       clearInterval(executeId)
-      message('\nStopped\n')
     }
 
     function toggleMonitor (state) {
@@ -1890,10 +1889,8 @@ function SimulatorWidget (node) {
       var lines = code.split('\n')
       codeAssembledOK = true
 
-      message('Preprocessing ...')
       var symbols = preprocess(lines)
 
-      message('Indexing labels ...')
       defaultCodePC = BOOTSTRAP_ADDRESS
       if (!labels.indexLines(lines, symbols)) {
         return false
@@ -1901,7 +1898,6 @@ function SimulatorWidget (node) {
       labels.displayMessage()
 
       defaultCodePC = BOOTSTRAP_ADDRESS
-      message('Assembling code ...')
 
       codeLen = 0
       for (var i = 0; i < lines.length; i++) {
