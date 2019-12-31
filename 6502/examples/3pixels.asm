@@ -1,9 +1,9 @@
-ldx #1
-txa
-sta $0221
-inx
-txa
-sta $0222
-inx
-txa
-sta $0223
+LDX #1
+TXA
+STA $0221
+INX
+TXA
+STA $0222
+INX
+TXA
+STA $0223

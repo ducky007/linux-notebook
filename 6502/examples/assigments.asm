@@ -1,22 +1,17 @@
-; Zero Page
 LDA #1
-STA $01       
+STA $01     ; Zero Page
 
-; Zero Page,X
 LDA #2
 LDX #2
-STA $00,X   
+STA $00,X   ; Zero Page,X
 
-; Absolute
 LDA #3
-STA $0003  
+STA $0003   ; Absolute
 
-; Absolute,X
 LDA #4
 LDX #4
-STA $0000,X 
+STA $0000,X ; Absolute,X
 
-; Absolute,Y
 LDA #5
 LDY #5
-STA $0000,Y
+STA $0000,Y ; Absolute,Y
