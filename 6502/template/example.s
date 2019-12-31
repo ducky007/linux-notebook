@@ -746,6 +746,21 @@ setup_background:
 		cpy #(32-14)
 		bcc :--
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	; Extra things
 
 
@@ -755,7 +770,7 @@ setup_background:
 
 
 	; fill in an area in the middle with 1/2 checkerboard
-	lda #7
+	lda #9
 	ldy #19 ; start at row (12), was 8
 	:
 		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
@@ -766,19 +781,19 @@ setup_background:
 		ldx #2 ; was 8
 		:
 			sta $2007
-			eor #$6
+			eor #$5
 			inx
-			cpx #(1)
+			cpx #(2)
 			bcc :-
 		eor #$7
 		iny
-		cpy #(1)
+		cpy #(2)
 		bcc :--
 
 
 
 			; fill in an area in the middle with 1/2 checkerboard
-	lda #8
+	lda #52
 	ldy #19 ; start at row (12), was 8
 	:
 		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
@@ -801,7 +816,7 @@ setup_background:
 
 
 			; fill in an area in the middle with 1/2 checkerboard
-	lda #8
+	lda #51
 	ldy #19 ; start at row (12), was 8
 	:
 		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
@@ -824,7 +839,7 @@ setup_background:
 
 
 			; fill in an area in the middle with 1/2 checkerboard
-	lda #9
+	lda #56
 	ldy #19 ; start at row (12), was 8
 	:
 		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
@@ -843,6 +858,256 @@ setup_background:
 		iny
 		cpy #(1)
 		bcc :--
+
+
+
+
+			; fill in an area in the middle with 1/2 checkerboard
+	lda #52
+	ldy #19 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #12 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+			; fill in an area in the middle with 1/2 checkerboard
+	lda #49
+	ldy #19 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #13 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	; fill in an area in the middle with 1/2 checkerboard
+	lda #9
+	ldy #21 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #8 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$5
+			inx
+			cpx #(2)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(2)
+		bcc :--
+
+
+
+			; fill in an area in the middle with 1/2 checkerboard
+	lda #20
+	ldy #21 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #9 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+			; fill in an area in the middle with 1/2 checkerboard
+	lda #19
+	ldy #21 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #10 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+			; fill in an area in the middle with 1/2 checkerboard
+	lda #24
+	ldy #21 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #11 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+
+			; fill in an area in the middle with 1/2 checkerboard
+	lda #20
+	ldy #21 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #12 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+			; fill in an area in the middle with 1/2 checkerboard
+	lda #17
+	ldy #21 ; start at row (12), was 8
+	:
+		pha ; temporarily store A, it will be clobbered by ppu_address_tile routine
+		ldx #13 ; start at column 8
+		jsr ppu_address_tile
+		pla ; recover A
+		; write a line of checkerboard
+		ldx #2 ; was 8
+		:
+			sta $2007
+			eor #$6
+			inx
+			cpx #(1)
+			bcc :-
+		eor #$7
+		iny
+		cpy #(1)
+		bcc :--
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
