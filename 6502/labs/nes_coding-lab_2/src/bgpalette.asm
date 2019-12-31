@@ -5,7 +5,7 @@
 ; minimum to draw the screen-- it disables all sprites and background graphics
 ; and fills the screen with the default color.
 ;
-; Doing this requires some extra work.  Firsst off, the PPU is not immediately
+; Doing this requires some extra work.  First off, the PPU is not immediately
 ; ready at power on.  Before interacting with it, you need to wait enough cycles
 ; for it to become ready.  There is a standard wait process employed in the
 ; reset vector.
