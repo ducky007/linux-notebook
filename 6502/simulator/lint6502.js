@@ -68,12 +68,12 @@ function lint6502 (text) {
     }).join(' ')
   }
 
-  function catComment (line, prev) {
+  function catComment (line, prev, next) {
     if (line.trim().substr(0, 1) !== ';') { return line }
     return '; ' + line.replace(';', '').trim()
   }
 
-  function subRoutine (line) {
+  function subRoutine (line, next) {
     if (line.trim().split(' ')[0].indexOf(':') < 0) { return line }
     return '\n' + line
   }
@@ -85,9 +85,9 @@ function lint6502 (text) {
 
   for (const id in lines) {
     lines[id] = ucOpCodes(lines[id])
-    lines[id] = catComment(lines[id], lines[id - 1])
-    lines[id] = subRoutine(lines[id], lines[id - 1])
-    lines[id] = padOpCode(lines[id], lines[id - 1])
+    lines[id] = catComment(lines[id], lines[id - 1], lines[id + 1])
+    lines[id] = subRoutine(lines[id], lines[id - 1], lines[id + 1])
+    lines[id] = padOpCode(lines[id], lines[id - 1], lines[id + 1])
   }
   return lines.join('\n')
 }
