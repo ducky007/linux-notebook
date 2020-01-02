@@ -23,7 +23,6 @@ zip file. You need to go to:
 http://home.earthlink.net/~joker21
 I'll update the page and zip file when I update this doc. 
 
-
 Tools
 --------
 
@@ -48,14 +47,12 @@ I've included most of these tools. And a bunch of docs about the NES.
 I'm telling you, get that zip file!
 Good luck!
 
-
 Need to Know
 ----------------
 You need to know 6502 assembly. Also, you need Y0SHi's NES doc. This
 thing is VERY useful. Print it out, a hard copy is a must. You might
 also want Marat Fayzullin's NES document. And Chris Covell's NES Tech
 FAQ is good too. So much information!
-
 
 Stuff to do before B.C.(Before Coding. Witty, huh?)
 ----------------------------------------------------
@@ -120,7 +117,6 @@ So far for our ROM we have:
         .inesmir    1
         .inesmap    0
 
-
     !The Vector Table!
       .bank 1
   .org  $FFFA
@@ -129,13 +125,11 @@ So far for our ROM we have:
   .dw   IRQ (IRQ_Routine)
 -------------------------------------------------------------------
 
-
 Coding!
 ---------
 Okay, one little thing before coding. The code must '.org' at $8000
 or $C000 and it must be in bank 0. I'm pretty sure this is right. All
 my stuff is going to use bank 0 and $8000 but that's just me. 
-
 
 Here's what the program should look like now:
 -------------------------------------------------------------------
@@ -157,7 +151,6 @@ Start:
 
   jmp Start
 
-
     ;!The Vector Table!
       .bank 1
   .org  $FFFA
@@ -166,19 +159,16 @@ Start:
   .dw   0 ;(IRQ_Routine)
 -------------------------------------------------------------------
 
-
 Wow! This program does two things well; nothing and not a damn thing.
 What it really does is simply go into an infinite loop. We need that
 infinite loop because the NES will keep going and end up trying to
 execute garbage instructions. Its a start though! Now, let's show some
 pretty pictures.
 
-
 Graphics
 ----------
 Showing graphics on the NES is composed of CHR-ROM, PPU control, the
 palette(the colors! THE COLORS!!!!), and some other fun things.
-
 
 The PPU
 --------
@@ -350,7 +340,6 @@ is also shown to be true because if you set the monochrome bit and some
 of the colour emphasis bits, the display still gets skewed to the colour
 being emphasized.
 
-
 Adding CHR-ROM
 ----------------
 Okay, now that you know about using the PPU, its time to learn how to
@@ -416,11 +405,9 @@ Loop:
     .incbin "test.chr"  ;gotta be 8192 bytes long
 ---------------------------------------------------------------
 
-
 We're not done yet though. If you run this code, you'll get nothing but
 a blank screen. That's because we haven't told the NES about the
 palette. Which brings us to our next section!
-
 
 The Palette
 ------------
@@ -551,7 +538,6 @@ Loop:
     .incbin "test.chr"  ;gotta be 8192 bytes long
 -----------------------------------------------------------------
 
-
 Damn. That code is so ugly it hurts my feelings. Let's make it a little
 less nasty, shall we?
 Like this:
@@ -565,7 +551,6 @@ Like this:
   .bank 0
 
 Start:
-
 
   ;this sets up the PPU
   lda #%00001000     
@@ -589,9 +574,7 @@ loadpal:
 Loop:
   jmp Loop
 
-
 titlepal: .incbin "test.pal"  ;palette data
-
 
       .bank 1
   .org  $FFFA
@@ -604,7 +587,6 @@ titlepal: .incbin "test.pal"  ;palette data
     .incbin "test.chr"  ;gotta be 8192 bytes long
 ------------------------------------------------------------------
 
-
 What I did was get rid of that ugly mess and use a loop. The loop loads
 the data that is included in test.pal and then writes it to $2007. It
 does this until the counter(x) gets to #$20 and then continues the
@@ -612,7 +594,6 @@ program. Test.pal is an external file that is 32 bytes of palette data.
 Makes it easier to edit colors and stuff. We got the palette down, the
 PPU under control, that nasty CHR-ROM in there. Ready to start putting
 shit on the screen? Of course you are!
-
 
 Name Tables!
 -------------
@@ -690,7 +671,6 @@ lot of data to the VRAM then just turn the display off, write your data,
 then turn the display back on. Here's it in action(it may not even be
 needed in this instance because not much data is being written):
 
-
 vwait:  
   lda $2002    ;wait
   bpl vwait
@@ -717,7 +697,6 @@ $2006 is $2020 and not $2000. That's because the first line(the first
 I think. I can't find the information I had on it. Now that we got a
 background, its time for some sprites to start dancing. Dance little 
 sprites! Dance!
-
 
 Sprites
 ---------
@@ -770,7 +749,6 @@ SPR-RAM. The address read from is $100*N, where N is the value written
 to the register. Okay. We got backgrounds. We got sprites. What's next?
 Input! Yes! Make them sprites move!
 
-
 Reading Input
 --------------
 Reading input from the joypad is sort of simple. All you have to do is
@@ -808,7 +786,6 @@ loopkey:
 Handling the key presses can be kinda hard though. Check the examples
 included for some different ways.
 
-
 Sound
 ------
 I'm not touching sound. I'm sorry if you were all excited to learn about
@@ -817,14 +794,12 @@ about sound in it because some of the information is wrong. However, his
 earlier doc did include it, so just look at that. There is also Brad
 Taylor's NES channel guide. Looks like pretty good stuff.
 
-
 The End???
 -----------
 Nope. You should now have an idea on how to make the NES do what you
 want. I hope so anyway. I'm now going to give some code snippets and
 talk about how to do some things. Save you some time trying to figure
 this shit out.
-
 
 Pausing Program Flow
 ---------------------
@@ -846,7 +821,6 @@ What you do is simply call this routine when you want to kill some
 time. Maybe show a title screen for a couple of seconds before allowing
 input. To change the time killed just change the values that are loaded
 into Y and X.
-
 
 Writing To CHR-ROM
 -------------------
@@ -879,14 +853,12 @@ hard though. Look at the docs that I've included for the best way for you
 to do it. Try asm1step.html. This is a nice way to refresh something in the
 pattern table without switching CHR-ROM. Or modify graphics on the fly.
 
-
 Moving A Sprite
 -----------------
 Moving a sprite is pretty simple. Just get joypad input, decide which
 buttons were pressed. Then just set register $2003 to the X, Y bytes
 in the SPR-RAM, read from $2004 and increase or decrease that value
 depending on which button was pressed.
-
 
 That's It Folks
 ---------------
@@ -896,14 +868,12 @@ mail me. All this information in this document is stuff I've
 discovered just playing around with emulators. It maybe wrong or
 incorrect. But it works. Most of the time.
 
-
 Places To Go
 -------------
 http://nesdev.parodius.com/  <----GO HERE! So much info!
 http://www.zophar.net/index.phtml
 http://www.komkon.org/fms/EMUL8/
 http://www.sfu.ca/~ccovell/NESTechFAQ.html
-
 
 Thanks And Biography
 ---------------------
@@ -928,7 +898,6 @@ on the web.
 
 All these people, though they don't know it, have contributed to
 this document in some way.
-
 
 bob
 joker21@earthlink.net
