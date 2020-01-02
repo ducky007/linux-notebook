@@ -1,14 +1,12 @@
-body { padding:30px; margin:0px; font-family: monospace }
+body { margin:0px; font-family: monospace }
 
 .widget {
   width: 600px;
   margin: 15px auto;
   font-size: 12px;
   line-height: 1.5;
-}
-
-.buttons {
-  margin: 8px 0;
+  position: fixed;
+  left:360px;
 }
 
 .start, .length {
@@ -24,20 +22,37 @@ body { padding:30px; margin:0px; font-family: monospace }
 
 .code {
   margin: 0 0 6px 0;
-  padding: 10px;
+  padding: 15px;
   border: 0px;
-  width: 420px;
+  width: 300px;
   height: 290px;
   font-family: monospace;
   overflow: auto;
   float: left;
-  background:#efefef;
-  resize:none;
+  resize: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: calc(100vh - 30px);
+  background:#000;
+  color:#fff;
 }
 
-.screen { float: right; }
+.buttons {
+  clear: both
+}
 
-.debugger { padding-left: 10px;padding-top: 10px;height: 125px;width: 150px;float: right; }
+.screen { 
+  margin: 15px 0px;
+  border-radius: 2px; 
+  float:left;
+}
+
+.debugger { 
+  margin: 15px;
+  height: 125px;
+  float: left; 
+}
 
 .minidebugger {
   margin: 0;
@@ -45,6 +60,7 @@ body { padding:30px; margin:0px; font-family: monospace }
   padding: 0;
   font-family: monospace;
   font-size: 11px;
+  margin-bottom: 15px;
 }
 
 .monitorControls {

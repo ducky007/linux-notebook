@@ -6,35 +6,31 @@
     <title>6502 Simulator</title>
   </head>
   <body>
-
-    <div class="widget">
+    <div class="widget" id='widget'>
       <div class="buttons">
-        <input type="button" value="Assemble" class="assembleButton" />
+        <input type="button" value="Build" class="assembleButton" />
         <input type="button" value="Run" class="runButton" />
         <input type="button" value="Reset" class="resetButton" />
-        <input type="button" value="Hexdump" class="hexdumpButton" />
-        <input type="button" value="Disassemble" class="disassembleButton" />
+        <input type="button" value="Hex" class="hexdumpButton" />
+        <input type="button" value="Dis" class="disassembleButton" />
         <input type="button" value="Linter" class="lintButton" />
       </div>
 
-      <textarea class="code" id='code' spellcheck="false"></textarea>
+      <textarea class="code" id='editor' spellcheck="false"></textarea>
 
-      <canvas class="screen" width="160" height="160"></canvas>
+      <canvas class="screen" width="160" height="160" id="canvas"></canvas>
 
       <div class="debugger">
-        <input type="checkbox" class="debug" name="debug" />
+        <input type="checkbox" class="debug" name="debug" style="margin:0"/>
         <label for="debug">Debugger</label>
         <div class="minidebugger"></div>
         <div class="buttons">
           <input type="button" value="Step" class="stepButton" />
-          <input type="button" value="Jump to ..." class="gotoButton" />
+          <input type="button" value="Jump" class="gotoButton" />
         </div>
       </div>
 
       <div class="monitorControls">
-        <label for="monitoring">Monitor</label>
-        <input type="checkbox" class="monitoring" name="monitoring" />
-
         <label for="start">Start: $</label>
         <input type="text" value="0" class="start" name="start" />
         <label for="length">Length: $</label>
@@ -45,5 +41,10 @@
     <script src="jquery.js"></script>
     <script src="assembler.js"></script>
     <script src="lint6502.js"></script>
+    <script type="text/javascript">
+      window.onload = () => {
+        SimulatorWidget(document.getElementById('widget'))
+      };
+    </script>
   </body>
 </html>

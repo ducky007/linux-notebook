@@ -78,10 +78,16 @@ function lint6502 (text) {
     return '\n' + line
   }
 
+  function padOpCode(line){
+    if (Object.keys(opCodes).indexOf(line.trim().split(' ')[0]) < 0) { return line }
+    return '  '+line.trim()
+  }
+
   for (const id in lines) {
     lines[id] = ucOpCodes(lines[id])
     lines[id] = catComment(lines[id], lines[id - 1])
     lines[id] = subRoutine(lines[id], lines[id - 1])
+    lines[id] = padOpCode(lines[id], lines[id - 1])
   }
   return lines.join('\n')
 }

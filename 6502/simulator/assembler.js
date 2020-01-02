@@ -21,10 +21,11 @@ function SimulatorWidget (node) {
   var assembler = Assembler()
 
   function initialize () {
-    stripText()
     ui.initialize()
     display.initialize()
     simulator.reset()
+
+    const editor = document.getElementById('editor')
 
     $node.find('.assembleButton').click(function () {
       assembler.assembleCode()
@@ -44,34 +45,22 @@ function SimulatorWidget (node) {
         simulator.stopDebugger()
       }
     })
-    $node.find('.monitoring').change(function () {
-      const state = document.getElementsByClassName('monitoring')[0].checked
-      ui.toggleMonitor(state)
-      simulator.toggleMonitor(state)
-    })
     $node.find('.start, .length').blur(simulator.handleMonitorRangeChange)
     $node.find('.stepButton').click(simulator.debugExec)
     $node.find('.gotoButton').click(simulator.gotoAddr)
     $node.find('.lintButton').click(() => {
-      document.getElementById('code').value = lint6502(document.getElementById('code').value)
+      editor.value = lint6502(editor.value)
     })
 
-    var editor = $node.find('.code')
-
-    editor.on('keypress input', simulator.stop)
-    editor.on('keypress input', ui.initialize)
-    editor.keydown(ui.captureTabInEditor)
+    editor.onkeypress = (e) => {
+      simulator.stop(e)
+      ui.initialize(e)
+      ui.captureTabInEditor(e)
+    }
 
     $(document).keypress(memory.storeKeypress)
 
     simulator.handleMonitorRangeChange()
-  }
-
-  function stripText () {
-    // Remove leading and trailing space in textarea
-    var text = $node.find('.code').val()
-    text = text.replace(/^\n+/, '').replace(/\s+$/, '')
-    $node.find('.code').val(text)
   }
 
   function UI () {
@@ -156,10 +145,6 @@ function SimulatorWidget (node) {
       setState(assembled)
     }
 
-    function toggleMonitor (state) {
-      $node.find('.monitor').toggle(state)
-    }
-
     function lintCode () {
       console.log('!!')
     }
@@ -189,7 +174,6 @@ function SimulatorWidget (node) {
       assembleSuccess: assembleSuccess,
       debugOn: debugOn,
       debugOff: debugOff,
-      toggleMonitor: toggleMonitor,
       captureTabInEditor: captureTabInEditor
     }
   }
@@ -210,7 +194,7 @@ function SimulatorWidget (node) {
     var numY = 32
 
     function initialize () {
-      var canvas = $node.find('.screen')[0]
+      const canvas = document.getElementById('canvas')
       width = canvas.width
       height = canvas.height
       pixelSize = width / numX
@@ -303,7 +287,6 @@ function SimulatorWidget (node) {
     var regSP = 0xff
     var codeRunning = false
     var debug = false
-    var monitoring = false
     var executeId
 
     // Set zero and negative processor flags based on result
@@ -1582,19 +1565,17 @@ function SimulatorWidget (node) {
     }
 
     function updateMonitor () {
-      if (monitoring) {
-        var start = parseInt($node.find('.start').val(), 16)
-        var length = parseInt($node.find('.length').val(), 16)
+      var start = parseInt($node.find('.start').val(), 16)
+      var length = parseInt($node.find('.length').val(), 16)
 
-        var end = start + length - 1
+      var end = start + length - 1
 
-        var monitorNode = $node.find('.monitor code')
+      var monitorNode = $node.find('.monitor code')
 
-        if (!isNaN(start) && !isNaN(length) && start >= 0 && length > 0 && end <= 0xffff) {
-          monitorNode.html(memory.format(start, length))
-        } else {
-          monitorNode.html('Cannot monitor this range. Valid ranges are between $0000 and $ffff, inclusive.')
-        }
+      if (!isNaN(start) && !isNaN(length) && start >= 0 && length > 0 && end <= 0xffff) {
+        monitorNode.html(memory.format(start, length))
+      } else {
+        monitorNode.html('Cannot monitor this range. Valid ranges are between $0000 and $ffff, inclusive.')
       }
     }
 
@@ -1687,10 +1668,6 @@ function SimulatorWidget (node) {
       clearInterval(executeId)
     }
 
-    function toggleMonitor (state) {
-      monitoring = state
-    }
-
     return {
       runBinary: runBinary,
       enableDebugger: enableDebugger,
@@ -1699,7 +1676,6 @@ function SimulatorWidget (node) {
       gotoAddr: gotoAddr,
       reset: reset,
       stop: stop,
-      toggleMonitor: toggleMonitor,
       handleMonitorRangeChange: handleMonitorRangeChange
     }
   }
@@ -1884,7 +1860,8 @@ function SimulatorWidget (node) {
       defaultCodePC = BOOTSTRAP_ADDRESS
       $node.find('.messages code').empty()
 
-      var code = $node.find('.code').val()
+      const editor = document.getElementById('editor')
+      var code = editor.value
       code += '\n\n'
       var lines = code.split('\n')
       codeAssembledOK = true
@@ -2632,9 +2609,3 @@ function SimulatorWidget (node) {
 
   initialize()
 }
-
-$(document).ready(function () {
-  $('.widget').each(function () {
-    SimulatorWidget(this)
-  })
-})
