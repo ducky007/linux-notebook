@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Remove old
 rm hello.nes
-./asm6 nes.asm hello.nes
+
+# Build
+
+./asm6 src/cart.asm hello.nes
+
+# Run
+
 nestopia hello.nes

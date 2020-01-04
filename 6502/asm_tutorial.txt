@@ -26,33 +26,7 @@ Day 17     - The Sprite Attribute Byte
 Day 18     - BG Scrolling
 Day 19     - Easy Large Loads
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Day 1 - Beginning NES Assembly
-
-
 
 About NES Assembly 
 
@@ -233,59 +207,7 @@ So the 7th bit is on the left and 0 bit on the right.
 Setting Up The PPU
 
   Note that one of the first things we need to do is set-up the PPU. We
-do this by storing values into $2000 and $2001 which are the 2 PPU control registers in memory. Here's the excerpt from YOSHi's doc to explain $2000 and $2001:
-
-| $2000   �  W     � vhzcpwNN � PPU Control Register #1           [PPUCNT0] �
-�         �       �          �                                             �
-�         �       �          �  7 = Execute NMI on VBlank                  �
-�         �       �          �         0 = Disabled                        �
-�         �       �          �         1 = Enabled                         �
-�         �       �          �  6 = Execute NMI on Sprite Hit              �
-�         �       �          �         0 = Disabled                        �
-�         �       �          �         1 = Enabled                         �
-�         �       �          �  5 = Sprite Size                            �
-�         �       �          �         0 = 8x8                             �
-�         �       �          �         1 = 8x16                            �
-�         �       �          �  4 = Screen Pattern Table Address           �
-�         �       �          �         0 = $0000 (VRAM)                    �
-�         �       �          �         1 = $1000 (VRAM)                    �
-�         �       �          �  3 = Sprite Pattern Table Address           �
-�         �       �          �         0 = $0000 (VRAM)                    �
-�         �       �          �         1 = $1000 (VRAM)                    �
-�         �       �          �  2 = PPU Address Read/Write Increment       �
-�         �       �          �         0 = Increment by 1                  �
-�         �       �          �         1 = Increment by 32                 �
-�         �       �          �  1&0 = Name Table Select                      �
-�         �       �          �        00 = $2000 (VRAM)                    �
-�         �       �          �        01 = $2400 (VRAM)                    �
-�         �       �          �        10 = $2800 (VRAM)                    �
-�         �       �          �        11 = $2C00 (VRAM)                    �
-+---------+-------+----------+---------------------------------------------�
-� $2001   �  W    � fffpcSIt � PPU Control Register #2           [PPUCNT1] �
-�         �       �          �                                             �
-�         �       �          �  7-5 = Full Background Colour                 �
-�         �       �          �       000 = None   \                        �
-�         �       �          �       001 = Red     \ Select one only       �
-�         �       �          �       010 = Green   /                       �
-�         �       �          �       100 = Blue   /                        �
-�         �       �          �  4 = Sprite Display                         �
-�         �       �          �         0 = Hide sprites                    �
-�         �       �          �         1 = Show sprites                    �
-�         �       �          �  3 = Screen Display                         �
-�         �       �          �         0 = Off (screen off)                �
-�         �       �          �         1 = On  (screen on)                 �
-�         �       �          �  2 = Sprite Clip                            �
-�         �       �          �         0 = Don't show sprites in the left  �
-�         �       �          �             8-pixel column                  �
-�         �       �          �         1 = Show sprites everywhere         �
-�         �       �          �  1 = Image Clip                             �
-�         �       �          �         0 = Don't show the left 8 pixels of �
-�         �       �          �             the screen                      �
-�         �       �          �         1 = Show the left 8 pixels          �
-�         �       �          �  0 = Colour Display                         �
-�         �       �          �         0 = Mono-tone display               �
-�         �       �          �         1 = Colour display                  �
-+-----------------------------------------------------------------------------+
+do this by storing values into $2000 and $2001 which are the 2 PPU control registers in memory. 
 
   To set-up the PPU we do 2 stores into memory.
 The code is:
@@ -313,10 +235,6 @@ Making A Background:
 3.  Create and Load a pallete.
 4.  Set tile numbers in Name Table.
 
-
-       Vo�la! The background appears!
-
-
    For sprites, the steps are slightly different:
 
 Making A Sprite:
@@ -325,19 +243,12 @@ Making A Sprite:
 2.  Include that file as the second file in bank 2.
 3.  Create and Load a pallete.
 4.  Set sprite attributes in Sprite data memory (like OAM on GBA).
-
-
-     ka boom! Sprite appears!
    
    We'll learn how to load the pallete tomorrow! Note that loading the               
    pallete is important as half is the background pallete and half is 
    the sprite pallete.
 
-
-
 Day 4 - Making And Loading A Pallete
-
-
 
 WHAT!?! 
 
@@ -395,29 +306,29 @@ explain it? :
   lda #$3F   ; these 4 lines tell $2006 that we
   sta $2006  ; want the stuff we load $2007 with
   lda #$00   ; to start at memory location $3F00
-sta $2006  ; . Note that since we can only store a byte at a time 
-           ;we store twice to get the whole address in there. 
+  sta $2006  ; . Note that since we can only store a byte at a time 
+             ; we store twice to get the whole address in there. 
   ldx #$00   ; load X with 0.
-        loadpal:   ; note that labels are followed by a ':' and aren't tabbed 
+  loadpal:   ; note that labels are followed by a ':' and aren't tabbed 
   lda ourpal, x   ; load A with pallete value at location ourpal + x.
 
-  
-         sta $2007   ;store the next pallete value into $2007
-               ; which will put in the right place for us.
-         inx         ; you've never seen this instruction before 
-         ; but it stands for INcrement X. it adds 1 to X.   
-   cpx #32     ; ComPare X with 32 which is how many pallete 
-                     ; values we need to load.
-  
-   bne loadpal  ; bne stands for Branch on Not Equal, so this 
-                      ; will branch to loadpal if X wasn't equal to 
-                      ; 32. If X is 32, then the loop will stop and 
-                      ; we�re done loading the pallete.
+
+  sta $2007   ;store the next pallete value into $2007
+              ; which will put in the right place for us.
+  inx         ; you've never seen this instruction before 
+              ; but it stands for INcrement X. it adds 1 to X.   
+  cpx #32     ; ComPare X with 32 which is how many pallete 
+              ; values we need to load.
+
+  bne loadpal  ; bne stands for Branch on Not Equal, so this 
+  ; will branch to loadpal if X wasn't equal to 
+  ; 32. If X is 32, then the loop will stop and 
+  ; we�re done loading the pallete.
 
 Assume ourpal is a label that is defined later in the source file that looks something like this:
 
-         ourpal: .incbin "our.pal"   ; label our pallete for use in 
-                                     ; the loading code.
+ourpal: .incbin "our.pal"   ; label our pallete for use in 
+; the loading code.
 
 We will put together a complete code file when we get a sprite displayed tomorrow.
 

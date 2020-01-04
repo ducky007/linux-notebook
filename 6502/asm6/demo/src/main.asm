@@ -1,13 +1,12 @@
-;Include a header file which contains names for the hardware registers of the NES.
-INCLUDE "nes.h"
+; We declare variables by sticking them inside an "ENUM" block.  This example sets the symbol "ptr" to be at address $0000.
+; The next symbol declared in here would be at the next address ($0002).
 
-;We declare variables by sticking them inside an "ENUM" block.  This example sets the symbol "ptr" to be at address $0000.
-;The next symbol declared in here would be at the next address ($0002).
 ENUM $0
 ptr .dw 0
 ENDE
 
-;Declare some variables at Memory address $0300
+; Declare some variables at Memory address $0300
+
 ENUM $300
 Vblanked .db 0
 IrqJump .dw 0
@@ -19,7 +18,7 @@ oambuffer = OAM
 
 END_OF_RAM = $800
 
-;32k bank - Bank 0
+; 32k bank - Bank 0
 	.org $8000
 
 Nmi:
