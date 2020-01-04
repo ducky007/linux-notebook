@@ -194,7 +194,7 @@ WaitNmiLoop:
 
 ;The text to display
 HelloText1:
-	.db "Josh DW Was Here!",0
+	.db "Hello asm6",0
 
 ;The palette to display.  $0F is black, $30 is white.
 Palette:
