@@ -8,7 +8,15 @@
 - PPU: Picture Processing Unit, the graphics chip
 - APU: Audio Processing Unit, the sound chip inside the CPU
 
+## Registers
+
 The 6502 handles data in its registers, each of which holds one byte(8-bits) of data.  There are a total of three general use and two special purpose registers:
+
+- A: The accumulator handles all arithmetic and logic.  The real heart of the system.
+- X, Y: General purpose registers with limited abilities.
+- SP: This stack pointer is decremented every time a byte is pushed onto the stack, and incremented when a byte is popped off the stack.
+- PC is the program counter - it’s how the processor knows at what point in the program it currently is. It’s like the current line number of an executing script. In the JavaScript simulator the code is assembled starting at memory location $0600, so PC always starts there.
+- The Processor status shows the processor flags. Each flag is one bit, so all seven flags live in a single byte. The flags are set by the processor to give information about the previous instruction. More on that later. Read more about the registers and flags here.
 
 ## 6502 Processor Overview
 
@@ -19,14 +27,6 @@ $4000-4017 - Audio and controller access ports
 $6000-7FFF - Optional WRAM inside the game cart
 $8000-FFFF - Game cart ROM
 ```
-
-## Registers
-
-- A: The accumulator handles all arithmetic and logic.  The real heart of the system.
-- X, Y: General purpose registers with limited abilities.
-- SP: This stack pointer is decremented every time a byte is pushed onto the stack, and incremented when a byte is popped off the stack.
-- PC is the program counter - it’s how the processor knows at what point in the program it currently is. It’s like the current line number of an executing script. In the JavaScript simulator the code is assembled starting at memory location $0600, so PC always starts there.
-- The Processor status shows the processor flags. Each flag is one bit, so all seven flags live in a single byte. The flags are set by the processor to give information about the previous instruction. More on that later. Read more about the registers and flags here.
 
 ## Lexicon
 
@@ -166,6 +166,107 @@ BEQ $FF00  ; Branch if EQual, contnue running code there
 BNE $FF00  ; Branch if Not Equal - opposite above, jump is made when zero flag is clear
 ```
 
+## NES Code Structure
+
+### iNES Header
+
+The 16 byte iNES header gives the emulator all the information about the game including mapper, graphics mirroring, and PRG/CHR sizes. You can include all this inside your asm file at the very beginning.
+
+```
+  .inesprg 1   ; 1x 16KB bank of PRG code
+  .ineschr 1   ; 1x 8KB bank of CHR data
+  .inesmap 0   ; mapper 0 = NROM, no bank swapping
+  .inesmir 1   ; background mirroring (ignore for now)
+```
+
+### Banking
+
+NESASM arranges everything in 8KB code and 8KB graphics banks. To fill the 16KB PRG space 2 banks are needed. Like most things in computing, the numbering starts at 0. For each bank you have to tell the assembler where in memory it will start.
+
+```
+  .bank 0
+  .org $C000
+;some code here
+
+  .bank 1
+  .org $E000
+; more code here
+
+  .bank 2
+  .org $0000
+; graphics here
+```
+
+Adding Binary Files Additional data files are frequently used for graphics data or level data. The incbin directive can be used to include that data in your .NES file. This data will not be used yet, but is needed to make the .NES file size match the iNES header.
+
+```
+  .bank 2
+  .org $0000
+  .incbin "mario.chr"   ;includes 8KB graphics file from SMB1
+```
+
+### Vectors
+
+There are three times when the NES processor will interrupt your code and jump to a new location. These vectors, held in PRG ROM tell the processor where to go when that happens. Only the first two will be used in this tutorial.
+
+- NMI Vector: this happens once per video frame, when enabled. The PPU tells the processor it is starting the VBlank time and is available for graphics updates.
+- RESET Vector: this happens every time the NES starts up, or the reset button is pressed.
+IRQ Vector: this is triggered from some mapper chips or audio interrupts and will not be covered.
+
+These three must always appear in your assembly file the right order. The .dw directive is used to define a Data Word (1 word = 2 bytes):
+
+```
+  .bank 1
+  .org $FFFA     ;first of the three vectors starts here
+  .dw NMI        ;when an NMI happens (once per frame if enabled) the 
+                 ;processor will jump to the label NMI:
+  .dw RESET      ;when the processor first turns on or is reset, it will jump
+                 ;to the label RESET:
+  .dw 0          ;external interrupt IRQ is not used in this tutorial
+```
+
+### Reset Code
+
+The reset vector was set to the label RESET, so when the processor starts up it will start from RESET: Using the .org directive that code is set to a space in game ROM. A couple modes are set right at the beginning. We are not using IRQs, so they are turned off. The NES 6502 processor does not have a decimal mode, so that is also turned off. This section does NOT include everything needed to run code on the real NES, but will work with the FCEUXD SP emulator. More reset code will be added later.
+
+```
+  .bank 0
+  .org $C000
+RESET:
+  SEI        ; disable IRQs
+  CLD        ; disable decimal mode
+```
+
+### Completing The Program
+
+Your first program will be very exciting, displaying an entire screen of one color! To do this the first PPU settings need to be written. This is done to memory address $2001. The 76543210 is the bit number, from 7 to 0. Those 8 bits form the byte you will write to $2001.
+
+```
+PPUMASK ($2001)
+
+76543210
+||||||||
+|||||||+- Grayscale (0: normal color; 1: AND all palette entries
+|||||||   with 0x30, effectively producing a monochrome display;
+|||||||   note that colour emphasis STILL works when this is on!)
+||||||+-- Disable background clipping in leftmost 8 pixels of screen
+|||||+--- Disable sprite clipping in leftmost 8 pixels of screen
+||||+---- Enable background rendering
+|||+----- Enable sprite rendering
+||+------ Intensify reds (and darken other colors)
+|+------- Intensify greens (and darken other colors)
++-------- Intensify blues (and darken other colors)
+```
+
+So if you want to enable the sprites, you set bit 3 to 1. For this program bits 7, 6, 5 will be used to set the screen color:
+
+```
+  LDA %10000000   ;intensify blues
+  STA $2001
+Forever:
+  JMP Forever     ;infinite loop
+```
+
 ## Extras
 
 - Bit: The smallest unit in computers. It is either a 1 (on) or a 0 (off), like a light switch.
@@ -197,6 +298,13 @@ BNE $FF00  ; Branch if Not Equal - opposite above, jump is made when zero flag i
 - [neslib](https://github.com/clbr/neslib)
 - [cc65](https://cc65.github.io/)
 
+## Notes
+
+- When you use X it adds the value of X to the memory address and uses the 16-bit value at that address to do the write
+- whereas when you use Y it adds the value of Y to the address stored in the memory address it's reading from instead.
+- 6502 is little-endian, so $0200 is stored as $00 $02 in memory.
+- a HEX number consisting of 4 numbers is 16-bit.
+
 ## cc65
 
 ```
@@ -204,6 +312,13 @@ git clone https://github.com/cc65/cc65.git
 cd cc65
 make
 make avail
+```
+
+## Fceux
+
+```
+sudo apt-get update -y
+sudo apt-get install -y fceux
 ```
 
 ## nestopia
