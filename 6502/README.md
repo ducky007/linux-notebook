@@ -291,6 +291,7 @@ Forever:
 - [NES ASM](https://patater.com/gbaguy/nesasm.htm)
 - [Easy6502](http://skilldrick.github.io/easy6502/)
 - [6502](http://6502.org/tutorials/)
+- [No More Secrets](https://csdb.dk/release/?id=185341)
 
 ### Tools
 
