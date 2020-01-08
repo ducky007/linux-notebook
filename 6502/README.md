@@ -267,6 +267,37 @@ Forever:
   JMP Forever     ;infinite loop
 ```
 
+### Controller Ports
+
+The controllers are accessed through memory port addresses $4016 and $4017.  First you have to write the value $01 then the value $00 to port $4016.  This tells the controllers to latch the current button positions.  Then you read from $4016 for first player or $4017 for second player.  The buttons are sent  one at a time, in bit 0.  If bit 0 is 0, the button is not pressed.  If bit 0 is 1, the button is pressed.
+
+Button status for each controller is returned in the following order: A, B, Select, Start, Up, Down, Left, Right.
+
+```
+LDA #$01
+STA $4016
+LDA #$00
+STA $4016     ; tell both the controllers to latch buttons
+
+LDA $4016     ; player 1 - A
+LDA $4016     ; player 1 - B
+LDA $4016     ; player 1 - Select
+LDA $4016     ; player 1 - Start
+LDA $4016     ; player 1 - Up
+LDA $4016     ; player 1 - Down
+LDA $4016     ; player 1 - Left
+LDA $4016     ; player 1 - Right
+
+LDA $4017     ; player 2 - A
+LDA $4017     ; player 2 - B
+LDA $4017     ; player 2 - Select
+LDA $4017     ; player 2 - Start
+LDA $4017     ; player 2 - Up
+LDA $4017     ; player 2 - Down
+LDA $4017     ; player 2 - Left
+LDA $4017     ; player 2 - Right
+```
+
 ## Extras
 
 - Bit: The smallest unit in computers. It is either a 1 (on) or a 0 (off), like a light switch.

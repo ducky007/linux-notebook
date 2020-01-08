@@ -14,7 +14,7 @@ LoadPalettesLoop:
   CPX #$20            
   BNE LoadPalettesLoop  ;if x = $20, 32 bytes copied, all done
 
-  LDA #$80
+  LDA #$85
   STA $0200        ; put sprite 0 in center ($80) of screen vert
   STA $0203        ; put sprite 0 in center ($80) of screen horiz
   LDA #$00
