@@ -2,9 +2,6 @@
   .ineschr 1   ; 1x  8KB CHR data
   .inesmap 0   ; mapper 0 = NROM, no bank swapping
   .inesmir 1   ; background mirroring
-  
-
-;;;;;;;;;;;;;;;
 
 ;; DECLARE SOME VARIABLES HERE
   .rsset $0000  ;;start variables at ram location 0
@@ -25,7 +22,6 @@ buttons2      .rs 1  ; player 2 gamepad buttons, one bit per button
 scoreOnes     .rs 1  ; byte for each digit in the decimal score
 scoreTens     .rs 1
 scoreHundreds .rs 1
-
 
 ;; DECLARE SOME CONSTANTS HERE
 STATETITLE     = $00  ; displaying title screen

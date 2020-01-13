@@ -7,21 +7,14 @@ LoadPalettes:
   LDX #$00              ; start out at 0
 LoadPalettesLoop:
   LDA palette, x        ; load data from address (palette + the value in x)
-                          ; 1st time through loop it will load palette+0
-                          ; 2nd time through loop it will load palette+1
-                          ; 3rd time through loop it will load palette+2
-                          ; etc
   STA $2007             ; write to PPU
   INX                   ; X = X + 1
   CPX #$20              ; Compare X to hex $10, decimal 16 - copying 16 bytes = 4 sprites
   BNE LoadPalettesLoop  ; Branch to LoadPalettesLoop if compare was Not Equal to zero
                         ; if compare was equal to 32, keep going down
 
+; Set some initial ball stats
 
-  
-
-
-;;;Set some initial ball stats
   LDA #$01
   STA balldown
   STA ballright
@@ -39,13 +32,11 @@ LoadPalettesLoop:
   STA ballspeedx
   STA ballspeedy
 
+; Set starting game state
 
-;;:Set starting game state
   LDA #STATEPLAYING
   STA gamestate
-
-
-              
+       
   LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
   STA $2000
 
@@ -53,56 +44,49 @@ LoadPalettesLoop:
   STA $2001
 
 Forever:
-  JMP Forever     ;jump back to Forever, infinite loop, waiting for NMI
+  JMP Forever      ; jump back to Forever, infinite loop, waiting for NMI
   
- 
-
 NMI:
   LDA #$00
-  STA $2003       ; set the low byte (00) of the RAM address
+  STA $2003        ; set the low byte (00) of the RAM address
   LDA #$02
-  STA $4014       ; set the high byte (02) of the RAM address, start the transfer
+  STA $4014        ; set the high byte (02) of the RAM address, start the transfer
 
   JSR DrawScore
 
-  ;;This is the PPU clean up section, so rendering the next frame starts properly.
+  ; This is the PPU clean up section, so rendering the next frame starts properly.
+
   LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
   STA $2000
   LDA #%00011110   ; enable sprites, enable background, no clipping on left side
   STA $2001
-  LDA #$00        ;;tell the ppu there is no background scrolling
+  LDA #$00         ; tell the ppu there is no background scrolling
   STA $2005
   STA $2005
     
-  ;;;all graphics updates done by here, run game engine
+  ; all graphics updates done by here, run game engin 
 
-
-  JSR ReadController1  ;;get the current button data for player 1
-  JSR ReadController2  ;;get the current button data for player 2
+  JSR ReadController1  ; get the current button data for player 1
+  JSR ReadController2  ; get the current button data for player 2
   
 GameEngine:  
   LDA gamestate
   CMP #STATETITLE
-  BEQ EngineTitle    ;;game is displaying title screen
+  BEQ EngineTitle      ; game is displaying title screen
     
   LDA gamestate
   CMP #STATEGAMEOVER
-  BEQ EngineGameOver  ;;game is displaying ending screen
+  BEQ EngineGameOver   ; game is displaying ending screen
   
   LDA gamestate
   CMP #STATEPLAYING
-  BEQ EnginePlaying   ;;game is playing
+  BEQ EnginePlaying    ; game is playing
 GameEngineDone:  
-  
-  JSR UpdateSprites  ;;set ball/paddle sprites from positions
+  JSR UpdateSprites    ; set ball/paddle sprites from positions
+  RTI                  ; return from interrupt
+ 
+;
 
-  RTI             ; return from interrupt
- 
- 
- 
- 
-;;;;;;;;
- 
 EngineTitle:
   ;;if start button pressed
   ;;  turn screen off
@@ -112,7 +96,7 @@ EngineTitle:
   ;;  turn screen on
   JMP GameEngineDone
 
-;;;;;;;;; 
+; 
  
 EngineGameOver:
   ;;if start button pressed
@@ -122,7 +106,7 @@ EngineGameOver:
   ;;  turn screen on 
   JMP GameEngineDone
  
-;;;;;;;;;;;
+; 
  
 EnginePlaying:
 
@@ -248,8 +232,6 @@ DrawScore:
   ;;draw score on screen using background tiles
   ;;or using many sprites
   RTS
- 
- 
  
 ReadController1:
   LDA #$01

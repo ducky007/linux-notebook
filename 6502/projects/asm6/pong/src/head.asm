@@ -2,43 +2,43 @@
 ;;;   iNES HEADER   ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;
 
-    .db  "NES", $1a     ;identification of the iNES header
-    .db  PRG_COUNT      ;number of 16KB PRG-ROM pages
-    .db  $01            ;number of 8KB CHR-ROM pages
-    .db  $70|MIRRORING  ;mapper 7
-    .dsb $09, $00       ;clear the remaining bytes
+  .db  "NES", $1a     ;identification of the iNES header
+  .db  PRG_COUNT      ;number of 16KB PRG-ROM pages
+  .db  $01            ;number of 8KB CHR-ROM pages
+  .db  $70|MIRRORING  ;mapper 7
+  .dsb $09, $00       ;clear the remaining bytes
 
-    .fillvalue $FF      ; Sets all unused space in rom to value $FF
+  .fillvalue $FF      ; Sets all unused space in rom to value $FF
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;;   VARIABLES   ;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-    .enum $0000 ; Zero Page variables
+  .enum $0000 ; Zero Page variables
 
-gamestate  .dsb 1  ; .rs 1 means reserve one byte of space
-ballx      .dsb 1  ; ball horizontal position
-bally      .dsb 1  ; ball vertical position
-ballup     .dsb 1  ; 1 = ball moving up
-balldown   .dsb 1  ; 1 = ball moving down
-ballleft   .dsb 1  ; 1 = ball moving left
-ballright  .dsb 1  ; 1 = ball moving right
-ballspeedx .dsb 1  ; ball horizontal speed per frame
-ballspeedy .dsb 1  ; ball vertical speed per frame
+gamestate     .dsb 1  ; .rs 1 means reserve one byte of space
+ballx         .dsb 1  ; ball horizontal position
+bally         .dsb 1  ; ball vertical position
+ballup        .dsb 1  ; 1 = ball moving up
+balldown      .dsb 1  ; 1 = ball moving down
+ballleft      .dsb 1  ; 1 = ball moving left
+ballright     .dsb 1  ; 1 = ball moving right
+ballspeedx    .dsb 1  ; ball horizontal speed per frame
+ballspeedy    .dsb 1  ; ball vertical speed per frame
 paddle1ytop   .dsb 1  ; player 1 paddle top vertical position
 paddle2ybot   .dsb 1  ; player 2 paddle bottom vertical position
-buttons1   .dsb 1  ; player 1 gamepad buttons, one bit per button
-buttons2   .dsb 1  ; player 2 gamepad buttons, one bit per button
-score1     .dsb 1  ; player 1 score, 0-15
-score2     .dsb 1  ; player 2 score, 0-15
+buttons1      .dsb 1  ; player 1 gamepad buttons, one bit per button
+buttons2      .dsb 1  ; player 2 gamepad buttons, one bit per button
+score1        .dsb 1  ; player 1 score, 0-15
+score2        .dsb 1  ; player 2 score, 0-15
 
-    .ende
+  .ende
 
-    .enum $0400 ; Variables at $0400. Can start on any RAM page
+  .enum $0400 ; Variables at $0400. Can start on any RAM page
 
 sleeping        .dsb 1
 
-    .ende
+  .ende
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;;   CONSTANTS   ;;;
@@ -59,8 +59,8 @@ LEFTWALL       = $04
 PADDLE1X       = $08  ; horizontal position for paddles, doesnt move
 PADDLE2X       = $F0
 
-    .org $C000
-    
+  .org $C000
+  
 ;;;;;;;;;;;;;;;;;
 ;;;   RESET   ;;;
 ;;;;;;;;;;;;;;;;;
