@@ -63,11 +63,6 @@ NMI:
   LDA #$00         ; tell the ppu there is no background scrolling
   STA $2005
   STA $2005
-    
-  ; all graphics updates done by here, run game engin 
-
-  JSR ReadController1  ; get the current button data for player 1
-  JSR ReadController2  ; get the current button data for player 2
   
 GameEngine:  
   LDA gamestate
@@ -88,22 +83,13 @@ GameEngineDone:
 ;
 
 EngineTitle:
-  ;;if start button pressed
-  ;;  turn screen off
-  ;;  load game screen
-  ;;  set starting paddle/ball position
-  ;;  go to Playing State
-  ;;  turn screen on
+  ; nothing
   JMP GameEngineDone
 
 ; 
  
 EngineGameOver:
-  ;;if start button pressed
-  ;;  turn screen off
-  ;;  load title screen
-  ;;  go to Title State
-  ;;  turn screen on 
+  ; nothing
   JMP GameEngineDone
  
 ; 
@@ -186,25 +172,6 @@ MoveBallDown:
   LDA #$01
   STA ballup         ;;bounce, ball now moving down
 MoveBallDownDone:
-
-MovePaddleUp:
-  ;;if up button pressed
-  ;;  if paddle top > top wall
-  ;;    move paddle top and bottom up
-MovePaddleUpDone:
-
-MovePaddleDown:
-  ;;if down button pressed
-  ;;  if paddle bottom < bottom wall
-  ;;    move paddle top and bottom down
-MovePaddleDownDone:
-  
-CheckPaddleCollision:
-  ;;if ball x < paddle1x
-  ;;  if ball y > paddle y top
-  ;;    if ball y < paddle y bottom
-  ;;      bounce, ball now moving left
-CheckPaddleCollisionDone:
 
   JMP GameEngineDone
  
@@ -354,34 +321,5 @@ UpdateSprites:
   RTS
  
 DrawScore:
-  ;;draw score on screen using background tiles
-  ;;or using many sprites
+  ; nothing
   RTS
- 
-ReadController1:
-  LDA #$01
-  STA $4016
-  LDA #$00
-  STA $4016
-  LDX #$08
-ReadController1Loop:
-  LDA $4016
-  LSR A            ; bit0 -> Carry
-  ROL buttons1     ; bit0 <- Carry
-  DEX
-  BNE ReadController1Loop
-  RTS
-  
-ReadController2:
-  LDA #$01
-  STA $4016
-  LDA #$00
-  STA $4016
-  LDX #$08
-ReadController2Loop:
-  LDA $4017
-  LSR A            ; bit0 -> Carry
-  ROL buttons2     ; bit0 <- Carry
-  DEX
-  BNE ReadController2Loop
-  RTS 
