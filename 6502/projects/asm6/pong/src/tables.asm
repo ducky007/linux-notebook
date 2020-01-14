@@ -5,8 +5,17 @@
   .org $E000
     
 palette:
-  .db $22,$29,$1A,$0F,  $22,$36,$17,$0F,  $22,$53,$21,$0F,  $22,$27,$34,$0F   ;;background palette
-  .db $22,$1C,$15,$14,  $22,$42,$38,$3C,  $22,$1C,$15,$14,  $22,$02,$38,$3C   ;;sprite palette
+  ;Four palettes for the backgrounds
+  .db $0F,$30,$30,$30
+  .db $0F,$0F,$0F,$0F
+  .db $0F,$0F,$0F,$0F
+  .db $0F,$0F,$0F,$0F
+
+  ;Four palettes for the sprites
+  .db $00,$30,$15,$14
+  .db $00,$30,$38,$3C
+  .db $00,$30,$15,$14
+  .db $00,$30,$38,$3C
 
 sprites:
      ;vert tile attr horiz

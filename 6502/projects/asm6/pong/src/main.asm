@@ -28,7 +28,7 @@ LoadPalettesLoop:
   LDA #$80
   STA ballx
   
-  LDA #$02
+  LDA #$01
   STA ballspeedx
   STA ballspeedy
 
@@ -208,23 +208,38 @@ CheckPaddleCollisionDone:
 
   JMP GameEngineDone
  
- 
- 
- 
+; 
+
 UpdateSprites:
-  LDA bally  ;;update all ball sprite info
+  LDA bally  ; update all ball sprite info
   STA $0200
-  
-  LDA #$30
+  LDA #$00   ; sprite tile
   STA $0201
-  
-  LDA #$00
+  LDA #$00   ; 
   STA $0202
-  
   LDA ballx
   STA $0203
-  
-  ;;update paddle sprites
+
+  ; ball 2
+  LDA bally  ; update all ball sprite info
+  STA $0204
+  LDA #$01   ; sprite tile
+  STA $0205
+  LDA #$00   ; 
+  STA $0206
+  LDA #10
+  STA $0207
+
+  ; ball 2
+  LDA #10  ; update all ball sprite info
+  STA $0208
+  LDA #$02   ; sprite tile
+  STA $0209
+  LDA #$00   ; 
+  STA $020a
+  LDA ballx
+  STA $020b
+
   RTS
  
  

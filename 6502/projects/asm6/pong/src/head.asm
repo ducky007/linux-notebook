@@ -52,9 +52,9 @@ STATEPLAYING   = $01  ; move paddles/ball, check for collisions
 STATEGAMEOVER  = $02  ; displaying game over screen
   
 RIGHTWALL      = $F4  ; when ball reaches one of these, do something
-TOPWALL        = $20
+TOPWALL        = $10
 BOTTOMWALL     = $E0
-LEFTWALL       = $04
+LEFTWALL       = $10
   
 PADDLE1X       = $08  ; horizontal position for paddles, doesnt move
 PADDLE2X       = $F0
