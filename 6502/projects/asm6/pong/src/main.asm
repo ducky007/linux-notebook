@@ -225,12 +225,12 @@ UpdateSprites:
   STA $0204
   LDA #$01   ; sprite tile
   STA $0205
-  LDA #$00   ; 
+  LDA #$00   ; palette
   STA $0206
   LDA #10
   STA $0207
 
-  ; ball 2
+  ; ball 3
   LDA #10  ; update all ball sprite info
   STA $0208
   LDA #$02   ; sprite tile
