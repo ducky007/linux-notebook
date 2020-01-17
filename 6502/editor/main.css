@@ -1,12 +1,14 @@
-body { padding:0px; margin:0px; }
+body { padding:0px; margin:0px; background:#111; }
 hr { clear: both; border:0px; }
 #editor { margin: 0px; cursor: crosshair; }
-.right-panel { position: fixed;top: 0px;right: 0px;padding: 15px;background:white;font-size: 11px;font-family: mono;height: 100vh; }
-.right-panel #info { padding: 15px 0px; border-bottom: 1px solid black; margin-bottom: 15px }
-#brush { margin-right:30px; }
-.color { width: 30px;display: inline-block;padding: 10px;text-align: center;border-radius: 2px;margin-right: 5px;float: left;margin-bottom: 15px; }
+.panel { position: fixed;bottom: 0px;left: 0px;padding: 15px;background:white;font-size: 11px;font-family: mono;width: calc(100vw - 30px); height: 25px; }
+.panel #info { display: none }
+#brush { margin-right:15px; }
+.color { width: 0px;display: inline-block;padding: 12.25px;text-align: center;border-radius: 2px;margin-right: 5px;float: left;margin-bottom: 15px; }
 .color:hover { cursor: pointer; }
 .pallete-picker {  }
 
 table { border:0px; margin-bottom: 15px}
 table td { border: 0px;padding: 0px;min-width: 15px;line-height: 15px; }
+
+#nes, #image { float: right; margin-right: 10px }
