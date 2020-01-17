@@ -329,6 +329,8 @@ LDA $4017     ; player 2 - Right
 - [8bitworkshop](https://8bitworkshop.com)
 - [neslib](https://github.com/clbr/neslib)
 - [cc65](https://cc65.github.io/)
+- [Fceux Lua Docs](http://www.fceux.com/web/help/fceux.html?LuaScripting.html)
+
 
 ## Notes
 
