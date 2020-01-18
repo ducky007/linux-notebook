@@ -38,6 +38,7 @@ LoadBackground:
   LDX #$00              ; start out at 0
 
 ; screen segment 1/4
+
 LoadBackgroundLoop:
   LDA background, x     ; load data from address (background + the value in x)
   STA $2007             ; write to PPU
@@ -48,6 +49,7 @@ LoadBackgroundLoop:
   LDX #$00
 
 ; screen segment 2/4
+
 LoadBackgroundLoop2:
   LDA background, x     ; load data from address (background + the value in x)
   STA $2007             ; write to PPU
@@ -55,7 +57,7 @@ LoadBackgroundLoop2:
   CPX #$00              ; Each background table row is $10 in length
   BNE LoadBackgroundLoop2  ; Branch to LoadBackgroundLoop if compare was Not Equal to zero
 
-
+EnableSprites:
   LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
   STA $2000
   LDA #%00011110   ; enable sprites, enable background, no clipping on left side
