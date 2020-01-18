@@ -29,15 +29,54 @@ LoadPalettesLoop:
   CPX #$20              ; Compare X to hex $10, decimal 16 - copying 16 bytes = 4 sprites
   BNE LoadPalettesLoop  ; Branch to LoadPalettesLoop if compare was Not Equal to zero
 
-Draw:
+DrawLine1:
   LDA #$20              ; Set the PPU address to Row #2, column #2, which is address $2042
   STA PPUADDR
   LDA #32*2 + 2
   STA PPUADDR
   
-  LDA #<HelloText1      ; Set "ptr" to the address of "HelloText"
+  LDA #<Line1
   STA ptr+0
-  LDA #>HelloText1
+  LDA #>Line1
+  STA ptr+1
+
+  JSR WriteString       ; Write this string to the PPU
+
+DrawLine2:
+  LDA #$20              ; Set the PPU address to Row #2, column #2, which is address $2042
+  STA PPUADDR
+  LDA #32*4 + 2
+  STA PPUADDR
+  
+  LDA #<Line2
+  STA ptr+0
+  LDA #>Line2
+  STA ptr+1
+
+  JSR WriteString       ; Write this string to the PPU
+
+DrawLine3:
+  LDA #$20              ; Set the PPU address to Row #2, column #2, which is address $2042
+  STA PPUADDR
+  LDA #32*5 + 2
+  STA PPUADDR
+  
+  LDA #<Line3
+  STA ptr+0
+  LDA #>Line3
+  STA ptr+1
+
+  JSR WriteString       ; Write this string to the PPU
+
+DrawLine4:
+  LDA #$20              ; Set the PPU address to Row #2, column #2, which is address $2042
+  STA PPUADDR
+  LDA #32*6 + 2
+  STA PPUADDR
+  
+  LDA #<Line4
+  STA ptr+0
+  LDA #>Line4
   STA ptr+1
 
   JSR WriteString       ; Write this string to the PPU
@@ -97,5 +136,14 @@ NMI:
   RTI             ; return from interrupt
 
 ;The text to display
-HelloText1:
-  .db "Hello asm6",0
+Line1:
+  .db "Hello 6502",0
+
+Line2:
+  .db "AaBbCcDdEeFfGgHhIiJjKk",0
+
+Line3:
+  .db "LlMmNnOoPpQqRrSsTtUuVv",0
+
+Line4:
+  .db "WwXxYyZz0123456789",0
