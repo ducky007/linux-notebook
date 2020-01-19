@@ -49,18 +49,48 @@ DrawSprite3:
   STA $0209        ; set tile.id
   LDA #$00
   STA $020a        ; set tile.attribute
-  LDA #$16
+  LDA #$18
   STA $020b        ; set tile.x pos
 
-DrawHealth:
+DrawSprite4:
+  LDA #$0f
+  STA $020c        ; set tile.y pos
+  LDA #$03
+  STA $020d        ; set tile.id
+  LDA #$00
+  STA $020e        ; set tile.attribute
+  LDA #$20
+  STA $020f        ; set tile.x pos
+
+DrawSprite5:
   LDA #$0f
   STA $0210        ; set tile.y pos
-  LDA health
+  LDA #$03
   STA $0211        ; set tile.id
   LDA #$00
   STA $0212        ; set tile.attribute
-  LDA #$50
+  LDA #$28
   STA $0213        ; set tile.x pos
+
+DrawSprite6:
+  LDA #$0f
+  STA $0214        ; set tile.y pos
+  LDA #$03
+  STA $0215        ; set tile.id
+  LDA #$00
+  STA $0216        ; set tile.attribute
+  LDA #$30
+  STA $0217        ; set tile.x pos
+
+DrawHealth:
+  LDA #$0f
+  STA $0218        ; set tile.y pos
+  LDA health
+  STA $0219        ; set tile.id
+  LDA #$00
+  STA $021a        ; set tile.attribute
+  LDA #$40
+  STA $021b        ; set tile.x pos
 
 ; background
 
@@ -82,6 +112,7 @@ LoadBackgroundLoop:
   BNE LoadBackgroundLoop  ; Branch to LoadBackgroundLoop if compare was Not Equal to zero
 
   LDX #$00
+  JSR UpdateBar
 
 EnableSprites:
   LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
@@ -188,7 +219,7 @@ ReadRightDone:        ; handling this button is done
 
 IncreaseHealth:
   LDA health
-  CMP #$29
+  CMP #$2a
   BCC DoIncrHealth
   RTS
 DoIncrHealth:
@@ -207,9 +238,48 @@ DoDecrHealth:
 
 UpdateHealth:
   LDA health
-  STA $0211        ; set tile.id
+  STA $0219        ; set tile.id
   RTS
 
 UpdateBar:
-
+  ; clear bar
+  LDA #$00
+  STA $0201
+  STA $0205
+  STA $0209
+  STA $020d
+  STA $0211
+  STA $0215
+  LDA health
+DrawBar1:
+  CMP #$21
+  BCC DrawBar2
+  LDX #$01
+  STX $0201
+DrawBar2:
+  CMP #$23
+  BCC DrawBar3
+  LDX #$02
+  STX $0205
+DrawBar3:
+  CMP #$25
+  BCC DrawBar4
+  LDX #$02
+  STX $0209
+DrawBar4:
+  CMP #$27
+  BCC DrawBar5
+  LDX #$02
+  STX $020d
+DrawBar5:
+  CMP #$29
+  BCC DrawBar6
+  LDX #$02
+  STX $0211
+DrawBar6:
+  CMP #$2a
+  BCC DrawDone
+  LDX #$03
+  STX $0215
+DrawDone:
   RTS
