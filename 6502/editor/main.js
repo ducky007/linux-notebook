@@ -230,14 +230,14 @@ function drawSpriteBorderGridLines () {
   ctx.strokeStyle = 'white'
   ctx.lineWidth = 1
   for (let x = 0; x < 15; x++) {
-    ctx.strokeStyle = (x + 1) % 8 === 0 ? '#f00' : (x + 1) % 4 === 0 ? '#fff' : '#666'
+    ctx.strokeStyle = (x + 1) % 8 === 0 ? '#72dec2' : (x + 1) % 4 === 0 ? '#fff' : '#666'
     ctx.beginPath()
     ctx.moveTo(x * sWidth + sWidth, 0)
     ctx.lineTo(x * sWidth + sWidth, canvas.height)
     ctx.stroke()
   }
   for (let y = 0; y < 31; y++) {
-    ctx.strokeStyle = (y + 1) % 8 === 0 ? '#f00' : (y + 1) % 4 === 0 ? '#fff' : '#666'
+    ctx.strokeStyle = (y + 1) % 16 === 0 ? '#72dec2' : (y + 1) % 4 === 0 ? '#fff' : '#666'
     ctx.beginPath()
     ctx.moveTo(0, y * sHeight + sHeight)
     ctx.lineTo(canvas.width, y * sHeight + sHeight)
