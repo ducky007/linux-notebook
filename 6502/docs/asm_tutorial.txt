@@ -1,6 +1,5 @@
 NES ASM Tutorial
 
-
 This tutorial is about coding for the Nintendo Entertainment System using
 the NESASM Assembler. The tutorial is designed to go slow and make it easier to learn NES assembly. You ALMOST ABSOLUTELY need to know another assembly language before you attempt this as it does assume certain small (tiny) amount of basic assembly knowledge. Such as knowing GBA or Intel x86 assembly will be a big help in understanding the basics.
 
