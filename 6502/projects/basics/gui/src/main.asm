@@ -1,6 +1,6 @@
 ; set health to 8
 
-  LDA #$28
+  LDA #$24
   STA health
 
 ; palette
@@ -107,5 +107,109 @@ NMI:
   LDA #$00        ;;tell the ppu there is no background scrolling
   STA $2005
   STA $2005
+
+LatchController:
+  LDA #$01
+  STA $4016
+  LDA #$00
+  STA $4016       ; tell both the controllers to latch buttons
+
+ReadA: 
+  LDA $4016
+  AND #%00000001  ; only look at bit 0
+  BEQ ReadADone
+  LDA #$06        ; sprite tile
+  STA $0201
+ReadADone:        ; handling this button is done
+  
+ReadB: 
+  LDA $4016
+  AND #%00000001  ; only look at bit 0
+  BEQ ReadBDone
+  LDA #$06        ; sprite tile
+  STA $0201
+ReadBDone:        ; handling this button is done
+
+ReadSel: 
+  LDA $4016
+  AND #%00000001  ; only look at bit 0
+  BEQ ReadSelDone 
+  LDA #$06        ; sprite tile
+  STA $0201
+ReadSelDone:        ; handling this button is done
+
+ReadStart: 
+  LDA $4016
+  AND #%00000001  ; only look at bit 0
+  BEQ ReadStartDone 
+  LDA #$06        ; sprite tile
+  STA $0201
+ReadStartDone:        ; handling this button is done
+
+ReadUp: 
+  LDA $4016
+  AND #%00000001  ; only look at bit 0
+  BEQ ReadUpDone 
+  JSR IncreaseHealth
+  JSR UpdateHealth
+  JSR UpdateBar
+ReadUpDone:        ; handling this button is done
+
+ReadDown: 
+  LDA $4016
+  AND #%00000001  ; only look at bit 0
+  BEQ ReadDownDone 
+  JSR DecreaseHealth
+  JSR UpdateHealth
+  JSR UpdateBar
+ReadDownDone:        ; handling this button is done
+
+ReadLeft: 
+  LDA $4016
+  AND #%00000001  ; only look at bit 0
+  BEQ ReadLeftDone 
+  DEC $0203
+  LDA #$03        ; sprite tile
+  STA $0201
+ReadLeftDone:        ; handling this button is done
+
+ReadRight: 
+  LDA $4016
+  AND #%00000001  ; only look at bit 0
+  BEQ ReadRightDone 
+  INC $0203
+  LDA #$04        ; sprite tile
+  STA $0201
+ReadRightDone:        ; handling this button is done
   
   RTI             ; return from interrupt
+
+; Tools
+
+IncreaseHealth:
+  LDA health
+  CMP #$29
+  BCC DoIncrHealth
+  RTS
+DoIncrHealth:
+  INC health
+  RTS
+
+DecreaseHealth:
+  LDA health
+  CMP #$21
+  BCC DoDecrHealth
+  DEC health
+DoDecrHealth:
+  RTS
+
+; Draw subroutines
+
+UpdateHealth:
+  LDA health
+  STA $0211        ; set tile.id
+  RTS
+
+UpdateBar:
+
+  RTS
