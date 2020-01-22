@@ -104,32 +104,28 @@ ReadA:
   LDA $4016
   AND #%00000001  ; only look at bit 0
   BEQ ReadADone
-  LDA #$06        ; sprite tile
-  STA $0201
+  NOP ; Nothing to do..
 ReadADone:        ; handling this button is done
   
 ReadB: 
   LDA $4016
   AND #%00000001  ; only look at bit 0
   BEQ ReadBDone
-  LDA #$06        ; sprite tile
-  STA $0201
+  NOP ; Nothing to do..
 ReadBDone:        ; handling this button is done
 
 ReadSel: 
   LDA $4016
   AND #%00000001  ; only look at bit 0
   BEQ ReadSelDone 
-  LDA #$06        ; sprite tile
-  STA $0201
+  NOP ; Nothing to do..
 ReadSelDone:        ; handling this button is done
 
 ReadStart: 
   LDA $4016
   AND #%00000001  ; only look at bit 0
   BEQ ReadStartDone 
-  LDA #$06        ; sprite tile
-  STA $0201
+  NOP ; Nothing to do..
 ReadStartDone:        ; handling this button is done
 
 ReadUp: 
@@ -185,28 +181,58 @@ ReadRightDone:        ; handling this button is done
   RTI             ; return from interrupt
 
 UpdateMarker:
+  LDA #$08        ; sprite tile
+  STA $0205
   LDA #$06        ; sprite tile
-  STA $0205
   STA $0209
   STA $020d
-  LDA $0203 ; load x pos
-  CMP #$48
-  BCC UpdateDoneX
-; X is good
-  LDA #$05
-  STA $0209
-UpdateDoneX:
-  LDA $0200 ; load y pos
-  CMP #$38
-  BCC UpdateDoneY
-; Y is good
-  LDA #$05
-  STA $020d
-UpdateDoneY:
-  LDA $0209
-  CMP $020d
-  BNE UpdateDone
-  LDA #$05
-  STA $0205
+  JSR TestX
+  JSR TestY
+  JSR TestXY
 UpdateDone:
+  RTS
+
+; X is smaller than 48 and bigger than 12
+
+TestX:
+  LDA $0203 ; load x pos
+  CMP #$48  ; less than 48
+  BCC TestXPass
+  JMP TestXDone
+TestXPass:
+  CMP #$18  ; more than 12
+  BCC TestXDone
+  LDA #$05
+  STA $0209
+TestXDone:
+  RTS
+
+; Y is smaller than 38 and bigger than 08
+
+TestY:
+  LDA $0200 ; load x pos
+  CMP #$38  ; less than 38
+  BCC TestYPass
+  JMP TestYDone
+TestYPass:
+  CMP #$08  ; more than 08
+  BCC TestYDone
+  LDA #$05
+  STA $020d
+TestYDone:
+  RTS
+
+; spriteX is equal to spriteY and is not equal to 08
+
+TestXY:
+  LDA $0209 ; load X sprite
+  CMP $020d ; compare with y sprite
+  BEQ TestXYPass
+  JMP TestXYDone
+TestXYPass:
+  CMP #$05
+  BNE TestXYDone
+  LDA #$07
+  STA $0205
+TestXYDone:
   RTS
