@@ -2,10 +2,12 @@
   JSR LoadPalettes
   JSR LoadAttributes
 
-  LDA #%10000000   ; Enable NMI, sprites and background on table 0
+EnableSprites:
+  LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
   STA $2000
-  LDA #%00011110   ; Enable sprites, enable backgrounds
+  LDA #%00011110   ; enable sprites, enable background, no clipping on left side
   STA $2001
+  
   LDA #$00         ; No background scrolling
   STA $2006
   STA $2006
