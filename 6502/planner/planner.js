@@ -11,7 +11,7 @@ function Planner () {
   this.exportButton = document.createElement('button')
   this.lessButton = document.createElement('button')
   this.moreButton = document.createElement('button')
-  this.colors = ['white', 'black', 'grey', 'red', '#72dec2', 'beige']
+  this.colors = ['white', 'black', 'grey', 'red', '#72dec2', 'yellow', 'blue', 'pink']
 
   this.install = (host) => {
     this.exportButton.innerHTML = 'export'
@@ -85,11 +85,11 @@ function Planner () {
   this.drawGrid = () => {
     for (var x = 0; x < screen.w; x++) {
       if (x == 0) { continue }
-      this.drawLine({ x: x * scale, y: 0 }, { x: x * scale, y: screen.h * scale })
+      this.drawLine({ x: x * scale, y: 0 }, { x: x * scale, y: screen.h * scale }, 32)
     }
     for (var y = 0; y < screen.h; y++) {
       if (y == 0) { continue }
-      this.drawLine({ x: 0, y: y * scale }, { x: screen.w * scale, y: y * scale })
+      this.drawLine({ x: 0, y: y * scale }, { x: screen.w * scale, y: y * scale }, 30)
     }
   }
 
@@ -104,10 +104,29 @@ function Planner () {
     }
   }
 
-  this.drawLine = (a, b) => {
+  this.drawLine = (a, b, mid = 32) => {
     this.context.beginPath()
     this.context.moveTo(a.x, a.y)
     this.context.lineTo(b.x, b.y)
+
+    if(a.x === (mid/2) * scale || a.y === (mid/2) * scale){
+      this.context.strokeStyle = 'red'
+    }
+    else if(a.x === 0 && a.y === (scale * 1)){
+      this.context.strokeStyle = 'blue'
+    }
+    else if(a.x === 0 && a.y === (scale * (30-1))){
+      this.context.strokeStyle = 'blue'
+    }
+    else if(a.y === 0 && a.x === (scale * 2)){
+      this.context.strokeStyle = 'blue'
+    }
+    else if(a.y === 0 && a.x === (scale * (32-2))){
+      this.context.strokeStyle = 'blue'
+    }
+    else{
+      this.context.strokeStyle = 'black'
+    }
     this.context.stroke()
   }
 
@@ -122,20 +141,20 @@ function Planner () {
     let txt = ''
 
     for (var y = 0; y < screen.h; y++) {
-      txt += '.db '
+      txt += '  .db '
       for (var x1 = 0; x1 < screen.w / 2; x1++) {
         const id = x1 + (y * screen.w)
         txt += `${toHex(this.data[id])}` + (x1 < (screen.w / 2) - 1 ? ',' : '')
       }
       txt += '\n'
-      txt += '.db '
+      txt += '  .db '
       for (var x2 = 16; x2 < screen.w; x2++) {
         const id = x2 + (y * screen.w)
         txt += `${toHex(this.data[id])}` + (x2 < screen.w - 1 ? ',' : '')
       }
       txt += '\n'
     }
-    return txt.trim()
+    return txt
   }
 
   //

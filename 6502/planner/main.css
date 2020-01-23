@@ -1,2 +1,2 @@
 body { padding: 30px; margin:0; }
-canvas { border:2px solid black; margin-bottom: 10px }
+canvas { border:2px solid black; margin-bottom: 10px; display: block; }
