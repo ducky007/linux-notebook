@@ -32,11 +32,9 @@ LoadBackground:
 LoadBackgroundLoop:
   LDA (pointerBackgroundLowByte), y
   STA $2007
-
   INY
   CPY #$00
   BNE LoadBackgroundLoop
-
   INC pointerBackgroundHighByte
   INX
   CPX #$04
