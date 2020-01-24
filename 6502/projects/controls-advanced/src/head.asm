@@ -23,6 +23,11 @@ rowCounter      .dsb 1
 softPPU_Control .dsb 1
 softPPU_Mask    .dsb 1
 
+pos_x            .dsb 1
+pos_y            .dsb 1
+tile_x           .dsb 1
+tile_y           .dsb 1
+
     .ende
 
     .enum $0400 ; Variables at $0400. Can start on any RAM page
@@ -30,6 +35,7 @@ softPPU_Mask    .dsb 1
 sleeping        .dsb 1
 
     .ende
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;;;   CONSTANTS   ;;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -46,51 +52,41 @@ PPU_Data        .equ $2007
 
 spriteRAM       .equ $0200
     .org $C000
+    
 ;;;;;;;;;;;;;;;;;
 ;;;   RESET   ;;;
 ;;;;;;;;;;;;;;;;;
 
 RESET:
-    sei
-    cld
-    lda #$40
-    sta $4017
-    ldx #$FF
-    txs
-    inx
-    stx PPU_Control
-    stx PPU_Mask
-    stx $4010
-    
-vblank1:
-    bit PPU_Status
-    bpl vblank1
+  SEI          ; disable IRQs
+  CLD          ; disable decimal mode
+  LDX #$40
+  STX $4017    ; disable APU frame IRQ
+  LDX #$FF
+  TXS          ; Set up stack
+  INX          ; now X = 0
+  STX $2000    ; disable NMI
+  STX $2001    ; disable rendering
+  STX $4010    ; disable DMC IRQs
+
+vblankwait1:       ; First wait for vblank to make sure PPU is ready
+  BIT $2002
+  BPL vblankwait1
 
 clrmem:
-    lda #$00
-    sta $0000,x
-    sta $0100,x
-    sta $0300,x
-    sta $0400,x
-    sta $0500,x
-    sta $0600,x
-    sta $0700,x
-    lda #$FE
-    sta $0200,x
-    inx
-    bne clrmem
-
-vblank2:
-    bit PPU_Status
-    bpl vblank2
-    
-    lda #<background
-    sta screenPtr
-    lda #>background
-    sta screenPtr+1
-
-    lda PPU_Status
-    lda #$20
-    sta PPU_Address
-    lda #$00
-    sta PPU_Address
+  LDA #$00
+  STA $0000, x
+  STA $0100, x
+  STA $0300, x
+  STA $0400, x
+  STA $0500, x
+  STA $0600, x
+  STA $0700, x
+  LDA #$FE
+  STA $0200, x    ;move all sprites off screen
+  INX
+  BNE clrmem
+   
+vblankwait2:      ; Second wait for vblank, PPU is ready after this
+  BIT $2002
+  BPL vblankwait2
