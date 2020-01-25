@@ -2,7 +2,7 @@
   LDA #$10
   STA sprite_id
   LDA #$20
-  STA last_pos
+  STA sprite_pos
 
 LoadPalettes:
   LDA $2002    ; read PPU status to reset the high/low latch
@@ -27,7 +27,7 @@ CreateSpriteLoop:
   STA $0201, x ; sprite id
   LDA #$00 
   STA $0202, x ; param
-  LDA last_pos
+  LDA sprite_pos
   STA $0203, x ; pos x
   ; move 4 steps
   INX
@@ -36,10 +36,10 @@ CreateSpriteLoop:
   INX
   ; increment sprite_id
   INC sprite_id
-  ; Move last_pos
-  LDA last_pos
+  ; Move sprite_pos
+  LDA sprite_pos
   ADC #$08
-  STA last_pos
+  STA sprite_pos
   ; loop 4 times
   CPX #$50            
   BNE CreateSpriteLoop

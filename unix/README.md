@@ -50,6 +50,7 @@ sudo apt-get install screenfetch
 sudo apt-get install mc
 sudo apt-get install htop
 sudo apt-get install kdenlive
+sudo apt-get install deluge
 ```
 
 ### Standard Linter
