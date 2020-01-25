@@ -15,6 +15,7 @@
     .enum $0000 ; Zero Page variables
 
 last_pos         .dsb 1
+sprite_id        .dsb 1
 
     .ende
 

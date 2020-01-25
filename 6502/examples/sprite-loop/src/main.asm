@@ -1,4 +1,6 @@
   ; Start at x=$20
+  LDA #$10
+  STA sprite_id
   LDA #$20
   STA last_pos
 
@@ -20,24 +22,26 @@ CreateSprite:
   LDX #$00
 CreateSpriteLoop:
   LDA #$68
-  STA $0200, x
-  LDA last_pos
-  STA $0201, x
+  STA $0200, x ; pos y
+  LDA sprite_id
+  STA $0201, x ; sprite id
   LDA #$00 
-  STA $0202, x
+  STA $0202, x ; param
   LDA last_pos
-  STA $0203, x
+  STA $0203, x ; pos x
   ; move 4 steps
   INX
   INX
   INX
   INX
+  ; increment sprite_id
+  INC sprite_id
   ; Move last_pos
   LDA last_pos
   ADC #$08
   STA last_pos
   ; loop 4 times
-  CPX #$30            
+  CPX #$50            
   BNE CreateSpriteLoop
 
   LDA #%10000000   ; enable NMI, sprites from Pattern Table 0
