@@ -1,3 +1,7 @@
+  ; Start at x=$20
+  LDA #$20
+  STA last_pos
+
 LoadPalettes:
   LDA $2002    ; read PPU status to reset the high/low latch
   LDA #$3F
@@ -12,16 +16,12 @@ LoadPalettesLoop:
   CPX #$20            
   BNE LoadPalettesLoop  ;if x = $20, 32 bytes copied, all done
 
-  ; Start at x=$20
-  LDA #$20
-  STA last_pos
-
 CreateSprite:
   LDX #$00
 CreateSpriteLoop:
   LDA #$68
   STA $0200, x
-  LDA #$05 
+  LDA last_pos
   STA $0201, x
   LDA #$00 
   STA $0202, x
