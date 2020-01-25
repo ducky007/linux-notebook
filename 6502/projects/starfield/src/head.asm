@@ -22,6 +22,9 @@ frame_layer_2 .dsb 1
 frame_layer_3 .dsb 1
 frame_layer_y .dsb 1
 
+sprite_id        .dsb 1
+sprite_pos       .dsb 1
+
     .ende
 
     .enum $0400 ; Variables at $0400. Can start on any RAM page
