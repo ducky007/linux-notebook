@@ -17,6 +17,8 @@
 health          .dsb 1
 is_drag         .dsb 1
 is_dash         .dsb 1
+can_drag        .dsb 1
+is_dragging     .dsb 1
 cursor_pos_x    .dsb 1
 cursor_pos_y    .dsb 1
 ball_pos_x      .dsb 1

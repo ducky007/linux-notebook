@@ -79,12 +79,20 @@ LatchController:
   STA $4016
   LDA #$00
   STA $4016       ; tell both the controllers to latch buttons
+  
+  JSR SetDragOff
 
 ReadA: 
   LDA $4016
   AND #%00000001  ; only look at bit 0
   BEQ ReadADone
-  NOP
+  LDA can_drag
+  CMP #$01
+  BNE ReadAFail
+  JSR SetDragOn
+  JMP ReadADone
+ReadAFail:
+  JSR SetDragOff
 ReadADone:        ; handling this button is done
   
 ReadB: 
@@ -140,36 +148,84 @@ ReadRightDone:        ; handling this button is done
 
 ; Set cursor sprite
 
-SetCursorOn:
-  LDA #$03
+SetDragOn:
+  LDA #$02
   STA $0201
+  LDA #01
+  STA is_dragging
+  RTS
+
+SetDragOff:
+  LDA #00
+  STA is_dragging
+  RTS
+
+SetCursorOn:
+  LDA #$02
+  STA $0201
+  LDA #$01
+  STA can_drag
   RTS
 
 SetCursorOff:
   LDA #$04
   STA $0201
+  LDA #$00
+  STA can_drag
   RTS
 
-TestX: ; check if x is between ball.x & ball.x + 8
+OnDrag:
+  LDA cursor_pos_x
+  STA ball_pos_x
+  RTS
+
+; 
+
+TestHover:
+TestX:
   LDA cursor_pos_x
   SBC #$08
   CMP ball_pos_x
   BCC TestXPass
-  JMP TestXFail
+  JMP TestHoverFail
 TestXPass:
   LDA cursor_pos_x
   CMP ball_pos_x
-  BCC TestXFail
+  BCC TestHoverFail
+TestY:
+  LDA cursor_pos_y
+  SBC #$08
+  CMP ball_pos_y
+  BCC TestYPass
+  JMP TestHoverFail
+TestYPass:
+  LDA cursor_pos_y
+  CMP ball_pos_y
+  BCC TestHoverFail
   JSR SetCursorOn
   RTS
-TestXFail:
+TestHoverFail:
   JSR SetCursorOff
   RTS
 
-Update:
-  JSR TestX
-UpdateDebug:
+;
+
+TestDrag:
+  LDA is_dragging
+  CMP #$01
+  BNE TestDragFail
   LDA cursor_pos_x
+  STA ball_pos_x
+  LDA cursor_pos_y
+  STA ball_pos_y
+TestDragFail:
+  RTS
+
+Update:
+  JSR TestHover
+  JSR TestDrag
+UpdateDebug:
+  LDA is_dragging
   STA $0209
   LDA cursor_pos_y
   STA $020d
