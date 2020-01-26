@@ -49,15 +49,6 @@ CreateDebugX:
   STA $020a        ; set tile.attribute
   LDA #$20
   STA $020b        ; set tile.x pos
-CreateDebugY:
-  LDA #$30
-  STA $020c        ; set tile.y pos
-  LDA #$05
-  STA $020d        ; set tile.id
-  LDA #$00
-  STA $020e        ; set tile.attribute
-  LDA #$28
-  STA $020f        ; set tile.x pos
 
   LDA #%10000000   ; enable NMI, sprites from Pattern Table 1
   STA $2000
@@ -79,7 +70,7 @@ LatchController:
   STA $4016
   LDA #$00
   STA $4016       ; tell both the controllers to latch buttons
-  
+
   JSR SetDragOff
 
 ReadA: 
@@ -121,6 +112,11 @@ ReadUp:
   AND #%00000001  ; only look at bit 0
   BEQ ReadUpDone 
   DEC cursor_pos_y
+  ; check if drag
+  LDA is_dragging
+  CMP #$01
+  BNE ReadUpDone
+  DEC ball_pos_y
 ReadUpDone:        ; handling this button is done
 
 ReadDown: 
@@ -128,6 +124,11 @@ ReadDown:
   AND #%00000001  ; only look at bit 0
   BEQ ReadDownDone 
   INC cursor_pos_y
+  ; check if drag
+  LDA is_dragging
+  CMP #$01
+  BNE ReadLeftDone
+  INC ball_pos_y
 ReadDownDone:        ; handling this button is done
 
 ReadLeft: 
@@ -135,6 +136,11 @@ ReadLeft:
   AND #%00000001  ; only look at bit 0
   BEQ ReadLeftDone 
   DEC cursor_pos_x
+  ; check if drag
+  LDA is_dragging
+  CMP #$01
+  BNE ReadLeftDone
+  DEC ball_pos_x
 ReadLeftDone:        ; handling this button is done
 
 ReadRight: 
@@ -142,6 +148,11 @@ ReadRight:
   AND #%00000001  ; only look at bit 0
   BEQ ReadRightDone 
   INC cursor_pos_x
+  ; check if drag
+  LDA is_dragging
+  CMP #$01
+  BNE ReadRightDone
+  INC ball_pos_x
 ReadRightDone:        ; handling this button is done
   
   RTI             ; return from interrupt
@@ -210,25 +221,11 @@ TestHoverFail:
 
 ;
 
-TestDrag:
-  LDA is_dragging
-  CMP #$01
-  BNE TestDragFail
-  LDA cursor_pos_x
-  STA ball_pos_x
-  LDA cursor_pos_y
-  STA ball_pos_y
-TestDragFail:
-  RTS
-
 Update:
   JSR TestHover
-  JSR TestDrag
 UpdateDebug:
   LDA is_dragging
   STA $0209
-  LDA cursor_pos_y
-  STA $020d
 UpdateCursor:
   LDA cursor_pos_x
   STA cursor_sprite_x
