@@ -172,10 +172,15 @@ SetDragOff:
   RTS
 
 SetCursorOn:
-  LDA #$02
-  STA $0201
   LDA #$01
   STA can_drag
+  CMP #$01
+  BNE SetCursorOnDone
+  STA $0201
+  RTS
+SetCursorOnDone:
+  LDA #$02
+  STA $0201
   RTS
 
 SetCursorOff:
