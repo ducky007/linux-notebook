@@ -174,8 +174,11 @@ SetDragOff:
 SetCursorOn:
   LDA #$01
   STA can_drag
+  ; red hand
+  LDA is_dragging
   CMP #$01
   BNE SetCursorOnDone
+  LDA #$01
   STA $0201
   RTS
 SetCursorOnDone:
