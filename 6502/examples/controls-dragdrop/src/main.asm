@@ -203,28 +203,17 @@ OnDrag:
 TestHover:
 TestX:
   LDA cursor_pos_x
-  SBC #$08
-  CMP ball_pos_x
-  BCC TestXPass
-  JMP TestHoverFail
-TestXPass:
-  LDA cursor_pos_x
-  CMP ball_pos_x
-  BCC TestHoverFail
+  SEC
+  SBC ball_pos_x
+  CMP #8
+  BCS SetCursorOff
 TestY:
   LDA cursor_pos_y
-  SBC #$08
-  CMP ball_pos_y
-  BCC TestYPass
-  JMP TestHoverFail
-TestYPass:
-  LDA cursor_pos_y
-  CMP ball_pos_y
-  BCC TestHoverFail
+  SEC
+  SBC ball_pos_y
+  CMP #8
+  BCS SetCursorOff
   JSR SetCursorOn
-  RTS
-TestHoverFail:
-  JSR SetCursorOff
   RTS
 
 ;
