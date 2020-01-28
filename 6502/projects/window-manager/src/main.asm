@@ -6,6 +6,15 @@ Start:
   STA ball_pos_x
   STA ball_pos_y
 
+
+  LDA $2002
+  LDA #$20
+  STA $2006
+  LDA #$22
+  STA $2006
+  LDA #$10
+  STA $2007
+
 LoadPalettes:
   LDA $2002             ; read PPU status to reset the high/low latch
   LDA #$3F
@@ -54,6 +63,18 @@ CreateDebugX:
   STA $2000
   LDA #%00010000   ; enable sprites
   STA $2001
+
+EnableSprites:
+  LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
+  STA $2000
+  LDA #%00011110   ; enable sprites, enable background, no clipping on left side
+  STA $2001
+  
+  LDA #$00         ; No background scrolling
+  STA $2006
+  STA $2006
+  STA $2005
+  STA $2005
 
 Forever:
   JSR Update
@@ -117,6 +138,7 @@ ReadUp:
   CMP #$01
   BNE ReadUpDone
   DEC ball_pos_y
+  JSR UpdateWindow
 ReadUpDone:        ; handling this button is done
 
 ReadDown: 
@@ -129,6 +151,7 @@ ReadDown:
   CMP #$01
   BNE ReadLeftDone
   INC ball_pos_y
+  JSR UpdateWindow
 ReadDownDone:        ; handling this button is done
 
 ReadLeft: 
@@ -141,6 +164,7 @@ ReadLeft:
   CMP #$01
   BNE ReadLeftDone
   DEC ball_pos_x
+  JSR UpdateWindow
 ReadLeftDone:        ; handling this button is done
 
 ReadRight: 
@@ -153,6 +177,7 @@ ReadRight:
   CMP #$01
   BNE ReadRightDone
   INC ball_pos_x
+  JSR UpdateWindow
 ReadRightDone:        ; handling this button is done
   
   RTI             ; return from interrupt
@@ -228,4 +253,16 @@ UpdateBall:
   STA ball_sprite_x
   LDA ball_pos_y
   STA ball_sprite_y
+  RTS
+
+UpdateWindow:
+  
+  LDA $2002
+  LDA #$21
+  STA $2006
+  LDA #$22
+  STA $2006
+  LDA #$03
+  STA $2007
+
   RTS
