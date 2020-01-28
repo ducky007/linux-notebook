@@ -6,7 +6,7 @@ Start:
   STA ball_pos_x
   STA ball_pos_y
 
-
+DrawBackground:
   LDA $2002
   LDA #$20
   STA $2006
@@ -260,9 +260,9 @@ UpdateWindow:
   LDA $2002
   LDA #$21
   STA $2006
-  LDA #$22
+  LDA #$0a
   STA $2006
-  LDA #$03
+  LDA #$04
   STA $2007
 
   RTS

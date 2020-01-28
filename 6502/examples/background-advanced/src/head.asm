@@ -18,6 +18,8 @@
 
 pointerBackgroundLowByte  .dsb 1
 pointerBackgroundHighByte .dsb 1
+cursor_pos_x    .dsb 1
+cursor_pos_y    .dsb 1
 
     .ende
 
@@ -41,7 +43,10 @@ PPU_Scroll      .equ $2005
 PPU_Address     .equ $2006
 PPU_Data        .equ $2007
 
-spriteRAM       .equ $0200
+cursor_sprite_y .equ $0200
+cursor_id       .equ $0201
+cursor_sprite_x .equ $0203
+
     .org $C000
     
 ;;;;;;;;;;;;;;;;;
