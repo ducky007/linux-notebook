@@ -3,8 +3,6 @@ Start:
   STA cursor_pos_x
   STA cursor_pos_y
 
-  JSR Paint
-
 LoadPalettes:
   LDA $2002             ; read PPU status to reset the high/low latch
   LDA #$3F
@@ -29,25 +27,6 @@ CreateCursor:
   STA $0202        ; set tile.attribute
   LDA #$88
   STA $0203        ; set tile.x pos
-CreateBall:
-  LDA #$88
-  STA $0204        ; set tile.y pos
-  LDA #$06
-  STA $0205        ; set tile.id
-  LDA #$00
-  STA $0206        ; set tile.attribute
-  LDA #$88
-  STA $0207        ; set tile.x pos
-
-CreateDebugX:
-  LDA #$30
-  STA $0208        ; set tile.y pos
-  LDA #$05
-  STA $0209        ; set tile.id
-  LDA #$00
-  STA $020a        ; set tile.attribute
-  LDA #$20
-  STA $020b        ; set tile.x pos
 
   LDA #%10000000   ; enable NMI, sprites from Pattern Table 1
   STA $2000
@@ -59,13 +38,15 @@ EnableSprites:
   STA $2000
   LDA #%00011110   ; enable sprites, enable background, no clipping on left side
   STA $2001
-  
+
+Forever:
+  JSR Update
+
+  LDA $2002
   LDA #$00         ; No background scrolling
   STA $2005
   STA $2005
 
-Forever:
-  JSR Update
   JMP Forever     ;jump back to Forever, infinite loop
 
 NMI:
@@ -151,14 +132,25 @@ UpdateCursor:
 
 Paint:
   LDA $2002
-  LDA #$21
+  LDA cursor_pos_y
+  CLC
+  ROL
+  ROL
+  PHA
+  ROL
+  AND #$03
+  ORA #$20
   STA $2006
+  PLA
+  AND #$E0
+  STA $40 ; Store value in zero-page
   LDA cursor_pos_x
   LSR
   LSR
   LSR
+  CLC
+  ADC $40 ; Use value in zero-page
   STA $2006
   LDA #$04
   STA $2007
-
   RTS

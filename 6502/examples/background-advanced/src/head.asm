@@ -16,8 +16,6 @@
 
     .enum $0000 ; Zero Page variables
 
-pointerBackgroundLowByte  .dsb 1
-pointerBackgroundHighByte .dsb 1
 cursor_pos_x    .dsb 1
 cursor_pos_y    .dsb 1
 
