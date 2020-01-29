@@ -2,6 +2,8 @@ Start:
   LDA #$60
   STA cursor_pos_x
   STA cursor_pos_y
+  LDA #$01
+  STA brush
 
 LoadPalettes:
   LDA $2002             ; read PPU status to reset the high/low latch
@@ -27,6 +29,15 @@ CreateCursor:
   STA $0202        ; set tile.attribute
   LDA #$88
   STA $0203        ; set tile.x pos
+
+  LDA #$30
+  STA $0204        ; set tile.y pos
+  LDA brush
+  STA $0205        ; set tile.id
+  LDA #$00
+  STA $0206        ; set tile.attribute
+  LDA #$20
+  STA $0207        ; set tile.x pos
 
   LDA #%10000000   ; enable NMI, sprites from Pattern Table 1
   STA $2000
@@ -73,6 +84,7 @@ ReadB:
   LDA $4016
   AND #%00000001  ; only look at bit 0
   BEQ ReadBDone
+  JSR ChangeBrush
   NOP
 ReadBDone:        ; handling this button is done
 
@@ -95,12 +107,14 @@ ReadUp:
   AND #%00000001  ; only look at bit 0
   BEQ ReadUpDone 
   DEC cursor_pos_y
+  DEC cursor_pos_y
 ReadUpDone:        ; handling this button is done
 
 ReadDown: 
   LDA $4016
   AND #%00000001  ; only look at bit 0
   BEQ ReadDownDone 
+  INC cursor_pos_y
   INC cursor_pos_y
 ReadDownDone:        ; handling this button is done
 
@@ -109,12 +123,14 @@ ReadLeft:
   AND #%00000001  ; only look at bit 0
   BEQ ReadLeftDone 
   DEC cursor_pos_x
+  DEC cursor_pos_x
 ReadLeftDone:        ; handling this button is done
 
 ReadRight: 
   LDA $4016
   AND #%00000001  ; only look at bit 0
   BEQ ReadRightDone 
+  INC cursor_pos_x
   INC cursor_pos_x
 ReadRightDone:        ; handling this button is done
   
@@ -151,6 +167,19 @@ Paint:
   CLC
   ADC $40 ; Use value in zero-page
   STA $2006
-  LDA #$04
+  LDA brush
   STA $2007
+  RTS
+
+ChangeBrush:
+  INC brush
+  LDA brush
+  CMP #$10
+  BNE ChangeBrushUpdate
+  LDA #$00
+  STA brush
+ChangeBrushUpdate:
+  LDA brush
+  ADC #$10
+  STA $0205
   RTS
