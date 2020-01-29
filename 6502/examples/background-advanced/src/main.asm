@@ -167,19 +167,23 @@ Paint:
   CLC
   ADC $40 ; Use value in zero-page
   STA $2006
-  LDA brush
+  LDA brush_id
   STA $2007
   RTS
 
 ChangeBrush:
   INC brush
-  LDA brush
+  LDA brush_id
   CMP #$10
   BNE ChangeBrushUpdate
   LDA #$00
-  STA brush
+  STA brush_id
 ChangeBrushUpdate:
-  LDA brush
+  LDA brush_id
   ADC #$10
   STA $0205
+  LDA brush
+  LSR
+  LSR
+  STA brush_id
   RTS

@@ -19,6 +19,7 @@
 cursor_pos_x    .dsb 1
 cursor_pos_y    .dsb 1
 brush           .dsb 1
+brush_id        .dsb 1
 
     .ende
 
