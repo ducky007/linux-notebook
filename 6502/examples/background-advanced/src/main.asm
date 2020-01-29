@@ -2,8 +2,9 @@ Start:
   LDA #$60
   STA cursor_pos_x
   STA cursor_pos_y
-  LDA #$01
-  STA brush
+  LDA #$10
+  STA brush_id
+  JSR Update
 
 LoadPalettes:
   LDA $2002             ; read PPU status to reset the high/low latch
@@ -52,12 +53,6 @@ EnableSprites:
 
 Forever:
   JSR Update
-
-  LDA $2002
-  LDA #$00         ; No background scrolling
-  STA $2005
-  STA $2005
-
   JMP Forever     ;jump back to Forever, infinite loop
 
 NMI:
@@ -139,11 +134,22 @@ ReadRightDone:        ; handling this button is done
 ; Set cursor sprite
 
 Update:
+
+  LDA $2002
+  LDA #$00         ; No background scrolling
+  STA $2005
+  STA $2005
+
 UpdateCursor:
   LDA cursor_pos_x
   STA cursor_sprite_x
   LDA cursor_pos_y
   STA cursor_sprite_y
+
+  LDA brush_id
+  ADC #$10
+  STA $0205
+
   RTS
 
 Paint:
@@ -173,15 +179,12 @@ Paint:
 
 ChangeBrush:
   INC brush
-  LDA brush_id
-  CMP #$10
-  BNE ChangeBrushUpdate
+  LDA brush
+  CMP #$40
+  BNE ChangeBrushDone
   LDA #$00
-  STA brush_id
-ChangeBrushUpdate:
-  LDA brush_id
-  ADC #$10
-  STA $0205
+  STA brush
+ChangeBrushDone:
   LDA brush
   LSR
   LSR
