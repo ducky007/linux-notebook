@@ -4,6 +4,7 @@ Start:
   STA cursor_pos_y
   LDA #$10
   STA brush_id
+  JSR ChangeBrush
   JSR Update
 
 LoadPalettes:
@@ -129,16 +130,16 @@ ReadRight:
   INC cursor_pos_x
 ReadRightDone:        ; handling this button is done
   
+  LDA $2002
+  LDA #$00         ; No background scrolling
+  STA $2005
+  STA $2005
+
   RTI             ; return from interrupt
 
 ; Set cursor sprite
 
 Update:
-
-  LDA $2002
-  LDA #$00         ; No background scrolling
-  STA $2005
-  STA $2005
 
 UpdateCursor:
   LDA cursor_pos_x
@@ -146,7 +147,7 @@ UpdateCursor:
   LDA cursor_pos_y
   STA cursor_sprite_y
 
-  LDA brush_id
+  LDA brush_id ; update brush marker
   ADC #$10
   STA $0205
 
